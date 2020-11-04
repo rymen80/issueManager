@@ -127,6 +127,7 @@ const SignIn = (props) => {
               name="password"
               label="password"
               autoComplete="password"
+              type="password"
             />
             <Button
               onClick={handleSubmit(handleSignIn)}
