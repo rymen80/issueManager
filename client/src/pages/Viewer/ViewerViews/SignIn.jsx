@@ -12,33 +12,10 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import issUseLogo from '../../../images/issUse.png';
-// The Field components job is to render out input html
-// and pass down functions for updating the state
-// as well as check to see if the values being passed are valid
-// and it will do this by passing down props to the component they render
-// nombre de usuario
-// gebruiksnaam
-// const TextFieldInput = ({ input, meta, label }) => {
-//   console.log(meta);
-//   // console.log('FIELD COMPONENT PROPS', props);
-//   return <TextField
-//     {...input}
-//     label={ language === 'Dutch' ? 'gebruiksnaam':'nombre de usuario'}
-//     // label={label}
-//   />;
-// };
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        issUse
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import SettingsIcon from '@material-ui/icons/Settings';
+import {LoginPagesCopyright} from '../../../pages/common/components/LoginPagesCopyright'
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
 const SignIn = (props) => {
   const classes = useStyles();
   const { handleSubmit, history } = props;
+  // const history = useHistory();
 
   console.log(props);
   const handleSignIn = async (formValues, dispatch) => {
@@ -109,6 +87,18 @@ const SignIn = (props) => {
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Button
+        variant="outlined"
+        color="#ff9961"
+        className={classes.button}
+        startIcon={<SettingsIcon />}
+        onClick={() => {
+          history.push("/adminsignin")}}
+          style={{right:"0px"}}
+          
+      >
+        Admin
+      </Button>
         <div className={classes.paper}>
         
             <img src={issUseLogo} className={classes.avatar}/>
@@ -148,7 +138,7 @@ const SignIn = (props) => {
               Sign in
             </Button>
             <Box mt={5}>
-              <Copyright />
+              <LoginPagesCopyright />
             </Box>
            </form>
         </div>
