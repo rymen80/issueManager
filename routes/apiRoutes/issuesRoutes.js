@@ -1,5 +1,5 @@
-const { getAllIssuesAPI } = require('../../../controllers/issuesContoller');
-const authMiddleWare = require('../../../middlewares/authorizationMiddleware');
+const { getAllIssuesAPI } = require('../../controllers/issuesContoller');
+const authMiddleWare = require('../../middlewares/authorizationMiddleware');
 const router = require('express')
   .Router();
 
