@@ -25,7 +25,7 @@ const swaggerOptions = {
     },
   },
   // *** Provide the routes for API Documentation
-  apis: ['./routes/apiRoutes/issuesRoutes/index.js','./routes/authRoutes/index.js'],
+  apis: ['./routes/apiRoutes/issuesRoutes.js','./routes/authRoutes/index.js'],
 };
 
 // *** Custom CSS for the Swagger Documentation
