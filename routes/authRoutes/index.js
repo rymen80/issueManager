@@ -6,11 +6,31 @@ const {
   signUpApi,
 } = require('../../controllers/authController');
 
-// /auth prepended to everything
+// *** /auth middleware prepended to everything
 const signInMiddleware = require('../../middlewares/signInMiddleware');
-// /auth/signin
 
+/**
+ *  @swagger
+ * 
+ *  /auth/signin:
+ *  post:
+ *    description: signin to IssUse
+ *    summary: user signin
+ *    tags:
+ *      - Auth
+ *    requestbody:
+ *      content:
+ *        application/json:
+ *        schema:
+ *          properties:
+ *            username:
+ *              type: string
+ *            password:
+ *              type: string
+ *      
+ */
 router.post('/signin', signInMiddleware, signInApi);
+
 router.post('/signup', signUpApi);
 
 module.exports = router;

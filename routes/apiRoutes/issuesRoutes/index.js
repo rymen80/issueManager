@@ -3,20 +3,28 @@ const authMiddleWare = require('../../../middlewares/authorizationMiddleware');
 const router = require('express')
   .Router();
 
-// const {
-//   signInApi,
-//   signUpApi,
-// } = require('../../controllers/authController');
-
-// /auth prepended to everything
-// const signInMiddleware = require('../../middlewares/signInMiddleware');
-// /auth/signin
 router.use(authMiddleWare);
+
+
+/**
+ * @swagger
+ * /api/issues:
+ *  get:
+ *    description: Gets All Issues
+ *    summary: Get All Issues 
+ *    tags:
+ *      - Issues
+ *    parameters:
+ *      - in: header
+ *        name: authorization
+ *        schema:
+ *          type:string
+ *        required:       
+ *    responses:
+ *      200:
+ *        description: Status Ok        
+ */
 router.get('/',getAllIssuesAPI);
-
-
-// router.post('/signin', signInMiddleware, signInApi);
-// router.post('/signup', signUpApi);
 
 module.exports = router;
 
