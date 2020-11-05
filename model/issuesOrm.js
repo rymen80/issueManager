@@ -11,7 +11,7 @@ const connection = require("../config/connection");
 const fetchAllIssues = async () => {
   try {
     const [rows] = await connection.query(getAllIssuesQuery);
-    return rows[0];
+    return rows;
   } catch (e) {
     throw new Error(e);
   }
