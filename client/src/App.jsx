@@ -18,10 +18,6 @@ function App() {
       <Route exact path="/">
       <Navbar/>
         <h1>Welcome to the about</h1>
-      <div className="statusCard">
-        <StatusCard  title="Total Issues:" number="10"/>
-        <StatusCard  title="Total Users:" number="10"/>
-      </div>
       </Route>
     </Router>
   );
