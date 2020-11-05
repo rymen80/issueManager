@@ -42,6 +42,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
   },
+  button: {
+    top: '1%',
+    left: '80%',
+  },
   avatar: {
     margin: theme.spacing(8),
 
@@ -90,7 +94,6 @@ const SignIn = (props) => {
           onClick={() => {
             history.push("/adminsignin");
           }}
-          style={{ position: "sticky",right:"0px",position:'-webkit-sticky',left:"80%",top:"10px" }}
         >
           Admin
         </Button>
