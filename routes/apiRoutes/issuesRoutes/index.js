@@ -1,5 +1,5 @@
 const { getAllIssuesAPI } = require('../../../controllers/issuesContoller');
-
+const authMiddleWare = require('../../../middlewares/authorizationMiddleware');
 const router = require('express')
   .Router();
 
@@ -11,7 +11,7 @@ const router = require('express')
 // /auth prepended to everything
 // const signInMiddleware = require('../../middlewares/signInMiddleware');
 // /auth/signin
-
+router.use(authMiddleWare);
 router.get('/',getAllIssuesAPI);
 
 
