@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles/App.css';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Navbar from './pages/common/components/Navbar';
 import StatusCard from '../src/pages/common/components/StatusCard'
 import {
