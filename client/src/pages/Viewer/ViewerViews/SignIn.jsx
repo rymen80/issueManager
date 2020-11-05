@@ -11,41 +11,22 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import issUseLogo from '../../../images/issUse.png';
-// The Field components job is to render out input html
-// and pass down functions for updating the state
-// as well as check to see if the values being passed are valid
-// and it will do this by passing down props to the component they render
-// nombre de usuario
-// gebruiksnaam
-// const TextFieldInput = ({ input, meta, label }) => {
-//   console.log(meta);
-//   // console.log('FIELD COMPONENT PROPS', props);
-//   return <TextField
-//     {...input}
-//     label={ language === 'Dutch' ? 'gebruiksnaam':'nombre de usuario'}
-//     // label={label}
-//   />;
-// };
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        issUse
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import issUseLogo from "../../../images/issUse.png";
+import SettingsIcon from "@material-ui/icons/Settings";
+import { LoginPagesCopyright } from "../../../pages/common/components/LoginPagesCopyright";
+
+const TextFieldInput = ({ input, meta, label, ...custom }) => {
+  console.log("FIELD COMPONENT PROPS", custom);
+  return <TextField {...input} label={label} meta={meta} {...custom} />;
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
   },
   image: {
-    backgroundImage: "url(https://images.unsplash.com/photo-1470790376778-a9fbc86d70e2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=949&q=80)",
+    backgroundImage:
+      "url(https://images.unsplash.com/photo-1470790376778-a9fbc86d70e2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=949&q=80)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -53,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
         : theme.palette.grey[900],
     backgroundSize: "cover",
     backgroundPosition: "center",
-    opacity: .6,
+    opacity: 0.6,
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -63,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(8),
-    
-    width: "80%",
+
+    width: "60%",
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -72,27 +53,19 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    background: '#638FBC',
-    color: 'white',
+    background: "#638FBC",
+    color: "white",
   },
 }));
 
-// What Redux form does for us
-// It will write the functions for updating form state
-// It will also write state to determine the current state of each field
-// It also gives us a function for getting the values out of the input
-// and then putting it in out submit function
-
-//what handleSubmit will do is pass the forms Values as the first parameter
-// handleSubmit also preventsDefault for us right away
-// to the function that it's calling
 const SignIn = (props) => {
   const classes = useStyles();
   const { handleSubmit, history } = props;
+  // const history = useHistory();
 
   console.log(props);
   const handleSignIn = async (formValues, dispatch) => {
-    console.log(formValues);
+    // console.log(formValues);
     //{ username: 'Your enterereduseRName', password: 'your password' }
     try {
       const res = await axios.post("/auth/signin", formValues);
@@ -109,16 +82,26 @@ const SignIn = (props) => {
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Button
+          variant="outlined"
+          color="inherit"
+          className={classes.button}
+          startIcon={<SettingsIcon />}
+          onClick={() => {
+            history.push("/adminsignin");
+          }}
+          style={{ position: "sticky",right:"0px",position:'-webkit-sticky',left:"80%",top:"10px" }}
+        >
+          Admin
+        </Button>
         <div className={classes.paper}>
-        
-            <img src={issUseLogo} className={classes.avatar}/>
-        
-         
+          <img src={issUseLogo} className={classes.avatar}/>
+
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
           <form noValidate autoComplete="off" className={classes.form}>
-            <TextField
+            <Field
               variant="outlined"
               margin="normal"
               required
@@ -127,9 +110,9 @@ const SignIn = (props) => {
               name="username"
               label="username"
               autoComplete="username"
-              autoFoucs
+              component={TextFieldInput}
             />
-            <TextField
+            <Field
               variant="outlined"
               margin="normal"
               required
@@ -137,7 +120,10 @@ const SignIn = (props) => {
               name="password"
               label="password"
               autoComplete="password"
-            />
+              type="password"
+              name="password"
+              component={TextFieldInput}
+            />            
             <Button
               onClick={handleSubmit(handleSignIn)}
               type="submit"
@@ -148,9 +134,9 @@ const SignIn = (props) => {
               Sign in
             </Button>
             <Box mt={5}>
-              <Copyright />
+              <LoginPagesCopyright />
             </Box>
-           </form>
+          </form>
         </div>
       </Grid>
     </Grid>
