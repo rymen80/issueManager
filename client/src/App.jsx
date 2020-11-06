@@ -16,7 +16,7 @@ function App() {
     <Router>
       <Route path='/signin'/>
       <Route path='/signup' component={WrappedSignUp}/>
-      <Route exact path="/" >
+      <Route exact path="/">
       <Navbar/>
         <h1>Welcome to the about</h1>
        
