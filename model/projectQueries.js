@@ -10,7 +10,7 @@ const fetchProjectByProjectKeyQuery = 'SELECT * from project WHERE project_key =
 // *** Only project Name and Description can be updated and nothing else
 const updateProjectQuery = 'UPDATE project SET project_name = ?, project_description = ? WHERE project_id = ?;';
 
-const insertProjectQuery = 'INSERT INTO project (project_name, project_key,project_description,created_by) VALUES (?, ?, ?, ?);';
+const insertProjectQuery = 'INSERT INTO project (project_name,project_key,project_description,created_by) VALUES (?,?,?,?);';
 const deleteProjectByIdQuery = 'DELETE FROM project WHERE project_id = ?;';
 
 module.exports = {

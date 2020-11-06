@@ -53,7 +53,7 @@ const fetchProjectByProjectKeyFromDb  = async (projectKey) => {
 // *** Update PojectName and Project Description
 const updateProjectInDb  = async (projName,proDesc,projectId) => {
   try {
-    const [rows] = await connection.query(updateProjectQuery,projName,proDesc,projectId);
+    const [rows] = await connection.query(updateProjectQuery,[projName,proDesc,projectId]);
     return rows[0];
   } catch (e) {
     throw new Error(e);
@@ -61,9 +61,10 @@ const updateProjectInDb  = async (projName,proDesc,projectId) => {
 };
 
 // *** Insert Project
-const insertProjectInDb  = async (project_name, project_key,project_description,created_by) => {
+const insertProjectInDb  = async (project_name, project_key,project_description,created_by) =>{
+  console.log(project_name);
   try {
-    const [rows] = await connection.query(insertProjectQuery,project_name, project_key,project_description,created_by);
+    const [rows] = await connection.query(insertProjectQuery,[project_name, project_key,project_description,created_by]);
     return rows[0];
   } catch (e) {
     throw new Error(e);
