@@ -44,9 +44,9 @@ export default function Footer() {
                         className={classes.a}
                     >
                         IssUse 
-                        <img src={issUse} alt="issUse logo" className={classes.logo}/>;
+                        <img src={issUse} alt="issUse logo" className={classes.logo}/>
               </a>
-              ,
+              
             </span>
             </p>
         </div>
