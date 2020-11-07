@@ -6,31 +6,34 @@ const {
   signUpApi,
 } = require('../../controllers/authController');
 
-// *** /auth middleware prepended to everything
+// *** auth middleware prepended to everything
 const signInMiddleware = require('../../middlewares/signInMiddleware');
 
+// *** auth middleware for Administrators
+const adminSignIn = require('../../middlewares/adminSignIn');
+
 /**
- *  @swagger
- * 
- *  /auth/signin:
+ * @swagger 
+ * /auth/signin:
  *  post:
- *    description: signin to IssUse
+ *    description: signin to *IssUse*
  *    summary: user signin
+ *    consumes:
+ *      - application/x-www-form-urlencoded
  *    tags:
  *      - Auth
- *    requestbody:
- *      content:
- *        application/json:
- *        schema:
- *          properties:
- *            username:
- *              type: string
- *            password:
- *              type: string
- *      
+ *    parameters:
+ *      - name: username
+ *        in: formData        
+ *        type: string
+ *      - name: password
+ *        in: formData        
+ *        type: string
+ *        format: password
+ *    responses:
+ *      200:
+ *        description: authentication token      
  */
 router.post('/signin', signInMiddleware, signInApi);
-
-router.post('/signup', signUpApi);
 
 module.exports = router;
