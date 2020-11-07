@@ -9,8 +9,6 @@ const {
 // *** auth middleware prepended to everything
 const signInMiddleware = require('../../middlewares/signInMiddleware');
 
-// *** auth middleware for Administrators
-const adminSignIn = require('../../middlewares/adminSignIn');
 
 /**
  * @swagger 
