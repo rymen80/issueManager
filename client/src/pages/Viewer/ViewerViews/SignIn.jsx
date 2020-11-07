@@ -73,7 +73,7 @@ const SignIn = (props) => {
     //{ username: 'Your enterereduseRName', password: 'your password' }
     try {
       const res = await axios.post("/auth/signin", formValues);
-      localStorage.setItem("token", res.data);
+      localStorage.setItem("userauth", JSON.stringify(res.data));
       dispatch(setViewerToken(res.data));
       history.push("/users");
     } catch (e) {
