@@ -1,11 +1,25 @@
 const {
   getAllIssuesQuery,
+  getAllIssuesInProjectByIdQuery,
   getIssueByIdQuery,
   getIssueByIssueKeyQuery,
   createIssueQuery,
   deleteIssueByIdQuery,
 } = require("./issuesQueries");
 const connection = require("../config/connection");
+
+// Fetch All Issues belonging to a project
+const fetchAllIssuesByProjectId = async (projectId) => {
+  try {
+    const [rows] = await connection.query(
+      getAllIssuesInProjectByIdQuery,
+      projectId
+    );
+    return rows;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
 
 // Fetch All Issues
 const fetchAllIssues = async () => {
@@ -49,35 +63,28 @@ const deleteIssueById = async (id) => {
 
 // Insert
 const insertIssueToDb = async (
-  issue_key,
   summary,
   description,
   reported_by,
   assigned_to,
   status,
   priority,
-  modified_on,
-  modified_by,
   project_id,
   resolution_id,
   label
 ) => {
   try {
-    const [rows] = await connection.query(
-      createIssueQuery,
-      issue_key,
+    const [rows] = await connection.query(createIssueQuery, [
       summary,
       description,
       reported_by,
       assigned_to,
       status,
       priority,
-      modified_on,
-      modified_by,
       project_id,
       resolution_id,
-      label
-    );
+      label,
+    ]);
     return rows[0];
   } catch (e) {
     throw new Error(e);
@@ -86,8 +93,9 @@ const insertIssueToDb = async (
 
 module.exports = {
   fetchAllIssues,
+  fetchAllIssuesByProjectId,
   fetchIssueById,
   fetchIssueByIssueKey,
   deleteIssueById,
-  insertIssueToDb, 
+  insertIssueToDb,
 };
