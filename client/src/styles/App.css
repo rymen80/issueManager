@@ -1,4 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap");
 .statusCard {
     display: flex;
     justify-content: space-around;
+}
+
+.tagline{
+  color:#190535;
+  font-family: 'Caveat', cursive;
+  position: absolute;
+  top:15%;
+  left:20%;
+  font-weight:900;
+  display: inline;
 }

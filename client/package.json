@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:3001/",
   "dependencies": {
     "@ag-grid-community/core": "^24.0.0",
     "@ag-grid-community/react": "^24.0.0",
