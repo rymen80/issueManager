@@ -2,8 +2,9 @@ import React from 'react';
 import './styles/App.css';
 import {BrowserRouter as Router, Route, Switch,Redirect} from 'react-router-dom';
 import Navbar from './pages/common/components/Navbar';
-import StatusCard from '../src/pages/common/components/StatusCard'
-import CreateIssue from '../src/pages/common/components/CreateIssue'
+import StatusCard from '../src/pages/common/components/StatusCard';
+import CreateIssue from '../src/pages/common/components/CreateIssue';
+import ViewIssues from '../src/pages/common/components/ViewIssues';
 import {
   WrappedSignUp,
   WrappedSignIn,
@@ -20,9 +21,7 @@ function App() {
       <Redirect to="/signin" />
       </Route>
       <Navbar/>
-        <h1>Welcome to the about</h1>
-       
-      
+        <h1>Welcome to the about</h1> 
     </Router>
   );
 }
