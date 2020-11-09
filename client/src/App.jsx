@@ -1,5 +1,9 @@
-import React from "react";
-import "./styles/App.css";
+import React from 'react';
+import './styles/App.css';
+import Navbar from './pages/common/components/Navbar';
+import StatusCard from '../src/pages/common/components/StatusCard';
+import CreateIssue from '../src/pages/common/components/CreateIssue';
+import ViewIssues from '../src/pages/common/components/ViewIssues';
 import {
   BrowserRouter as Router,
   Route,
