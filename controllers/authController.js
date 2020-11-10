@@ -15,6 +15,8 @@ module.exports = {
     res.json({
       token: tokenForUser(req.user.id),
       isadmin: req.user.isadmin,
+      id:req.user.id,
+      username:req.user.username
     });
   },
 };
