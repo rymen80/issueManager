@@ -25,6 +25,7 @@ const TextFieldInput = ({ input, meta, label, ...custom }) => {
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
+    overflow: 'hidden',
   },
   image: {
     backgroundImage:
@@ -49,9 +50,9 @@ const useStyles = makeStyles((theme) => ({
     left: '80%',
   },
   avatar: {
-    margin: theme.spacing(8),
-
-    width: "60%",
+    margin: theme.spacing(6),
+    height: "60px",
+    width: "40%",
   },
   form: {
     width: "100%", // Fix IE 11 issue.
