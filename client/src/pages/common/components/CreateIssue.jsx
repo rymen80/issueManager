@@ -89,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CreateIssueForm = (props) => {
+  
   const style = useStyles();
   const { handleSubmit, pristine, reset, submitting, classes } = props;
   const [project, setProject] = useState("");

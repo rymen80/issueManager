@@ -11,7 +11,7 @@ const PRIORITY_THREE = "p3";
 const useStyles = makeStyles({
   root: {
     width: 229,
-    background: '#99BFDD',
+    background: 'gainsboro',
   },
   title: {
     fontSize: 14,

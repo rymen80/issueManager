@@ -10,12 +10,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function IconLabelButtons() {
+export default function IconLabelButtons(props) {
   const classes = useStyles();
-
+  
   return (
     <div>
       <Button
+        onClick={props.onClick}
         variant="contained"
         color="secondary"
         className={classes.button}

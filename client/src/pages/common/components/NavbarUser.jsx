@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,6 +13,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import ReportIssueButton from './ReportIssueButton';
 import ProjectSelector from './ProjectSelector';
+import { setVisibility }from '../../../pages/User/UserPageReducer'
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function NavbarUser() {
+  // const [visibility, setVisibility] = useState(true);
+   const dispatch = useDispatch();
   const classes = useStyles();
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -44,8 +48,15 @@ export default function NavbarUser() {
     setAnchorEl(null);
   };
 
+  const handleClick= () => {
+  // useDispatch(setVisibility()); 
+   
+    dispatch(setVisibility());
+  }
+
   return (
     <div className={classes.root}>
+     
       {/* <FormGroup>
         <FormControlLabel
           control={<Switch checked={auth} onChange={handleChange} aria-label="login switch" />}
@@ -64,7 +75,7 @@ export default function NavbarUser() {
             <ProjectSelector/>
           </IconButton>
           <IconButton>
-            <ReportIssueButton/>
+            <ReportIssueButton onClick={handleClick} />
           </IconButton>
           {auth && (
             <div>
