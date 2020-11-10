@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -8,6 +8,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
+import axios from 'axios';
+
+let projectName = [];
 
 const StyledMenu = withStyles({
   paper: {
@@ -51,6 +54,14 @@ export default function ProjectSelector() {
     setAnchorEl(null);
   };
 
+ 
+  useEffect(async () => {
+    let projectResult = await axios.get('/api/projects')
+     projectName = projectResult.data.map(i => i.project_name)
+    // projectName.map(name => <MenuItem>{name}</MenuItem>)
+    
+  },[])
+
   return (
     <div>
       <Button
@@ -69,24 +80,7 @@ export default function ProjectSelector() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledMenuItem>
-          <ListItemIcon>
-            <SendIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Sent mail" />
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemIcon>
-            <DraftsIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Drafts" />
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemIcon>
-            <InboxIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Inbox" />
-        </StyledMenuItem>
+         {projectName.map(name => <StyledMenuItem><ListItemText primary ={name}/></StyledMenuItem>)}
       </StyledMenu>
     </div>
   );
