@@ -3,7 +3,7 @@ import { reduxForm, Field } from "redux-form";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
-import { setViewerToken } from "../ViewerReducer";
+// import { setViewerToken } from "../Viewer/ViewerReducer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
@@ -11,11 +11,11 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import issUseLogo from "../../../images/issUse.png";
-import issUseShortLogo from "../../../images/issUseLogo.png";
-import issUseBannerTransparent from "../../../images/issUseBannerTransparent.png";
+import issUseLogo from "../../images/issUse.png";
+import issUseShortLogo from "../../images/issUseLogo.png";
+import issUseBannerTransparent from "../../images/issUseBannerTransparent.png";
 import SettingsIcon from "@material-ui/icons/Settings";
-import { LoginPagesCopyright } from "../../../pages/common/components/LoginPagesCopyright";
+import { LoginPagesCopyright } from "../common/components/LoginPagesCopyright";
 
 const TextFieldInput = ({ input, meta, label, ...custom }) => {
   console.log("FIELD COMPONENT PROPS", custom);
@@ -77,7 +77,7 @@ const SignIn = (props) => {
     try {
       const res = await axios.post("/auth/signin", formValues);
       localStorage.setItem("userauth", JSON.stringify(res.data));
-      dispatch(setViewerToken(res.data));
+      // dispatch(setViewerToken(res.data));
       history.push("/users");
     } catch (e) {
       throw new Error(e);

@@ -9,7 +9,7 @@ import {
 import Navbar from "./pages/common/components/Navbar";
 import StatusCard from "../src/pages/common/components/StatusCard";
 import CreateIssue from "../src/pages/common/components/CreateIssue";
-import { WrappedSignUp, WrappedSignIn } from "./pages/Viewer";
+import { WrappedSignIn } from "./pages/User";
 import { WrappedAdminSignIn, AdminPage } from "./pages/Admin";
 import {ProtectedRoute} from './ProtectedRoute'
 import {useSelector} from 'react-redux';

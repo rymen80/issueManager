@@ -7,7 +7,7 @@ import { Link, useHistory } from 'react-router-dom';
 
 
 import {useSelector, useDispatch} from 'react-redux';
-import {setViewerToken} from '../../Viewer';
+// import {setViewerToken} from '../../Viewer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +30,7 @@ export default function ButtonAppBar() {
 
   const handleSignOut = () => {
     localStorage.removeItem('token');
-    dispatch(setViewerToken(null));
+    // dispatch(setViewerToken(null));
     history.push('/');
   };
 
