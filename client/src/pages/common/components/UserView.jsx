@@ -8,7 +8,8 @@ import Footer from "./willTools/Footer";
 import { useSelector} from 'react-redux';
 
 const useStyles = makeStyles({
-  root: {},
+  root: {
+  },
   status: {
     margin: "100px 10px",
     display: "flex",

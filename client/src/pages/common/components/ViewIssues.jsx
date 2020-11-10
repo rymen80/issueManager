@@ -15,6 +15,7 @@ const useStyles = makeStyles({
   },
   header: {
     fontSize: '20px',
+    background: 'gainsboro',
   }
 });
 
