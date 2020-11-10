@@ -8,6 +8,7 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import { makeStyles } from "@material-ui/core/styles";
 
+
 const validate = (values) => {
   const errors = {};
   const requiredFields = ["project", "title", "description"];
@@ -60,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
     width: "75%",
     margin: "0 auto",
     boxShadow: " 3px 3px 5px 6px #ccc",
+    position: 'fixed',
+    background: 'white',
+    left: '10%',
   },
   formContents: {
     margin: theme.spacing(3),
@@ -97,6 +101,10 @@ const CreateIssueForm = (props) => {
   const handleChange = (event) => {
     setProject(event.target.value);
   };
+
+  const handleOnClick = () => {
+      
+  }
   return (
     <form className={style.root} onSubmit={handleSubmit}>
       <div className={style.formContents}>
@@ -137,7 +145,7 @@ const CreateIssueForm = (props) => {
           >
             Clear Values
           </Button>
-          <Button type="submit" variant="contained" className={style.button}>
+          <Button type="submit" variant="contained" className={style.button} onClick={handleOnClick}>
             Submit
           </Button>
         </div>
