@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import {
   userReducer,
-  viewerReducer,
+
   adminReducer,
 } from '../pages';
 // This will shape what the store looks like for us
@@ -10,6 +10,6 @@ import {
 // the value will be the reducer in charge of handling the state for that root name
 export default combineReducers({
   form: formReducer,
-  viewer: viewerReducer,
+  // viewer: viewerReducer,
   admin:adminReducer,
 });
