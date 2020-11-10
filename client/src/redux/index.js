@@ -11,5 +11,6 @@ import {
 export default combineReducers({
   form: formReducer,
   userPage: userPageReducer,
+  user:userReducer,
   admin:adminReducer,
 });
