@@ -25,24 +25,29 @@ const StatusCard = (props) => {
   const [number, setNumber] = useState(0);
   const Total= props.total;
   useEffect(async () => {
-    let result = await axios.get('/api/issues')
-    if(props.title === "Total Issues:"){
-      return setNumber(result.data.length);
-    }
-    if(props.title === "Open:"){
-      const open = result.data.filter(x => x.priority.toLowerCase() === PRIORITY_ONE)
-      console.log(result.data)
-      return setNumber(open.length);
-    }
-    if(props.title === "In Progress:"){
-      const inProgress = result.data.filter(x => x.priority.toLowerCase() === PRIORITY_TWO)
-      return setNumber(inProgress.length);
-    }
-    if(props.title === "Completed:"){
-      const completed = result.data.filter(x => x.priority.toLowerCase() === PRIORITY_THREE)
-      return setNumber(completed.length);
-    }
-      return setNumber(0);
+    let projectResult = await axios.get('/api/projects')
+    const projectId = projectResult.data.map(i => i.project_id)
+    // console.log(projectResult);
+    // const issues = projectId.map(i => axios.get(`/api/issues?projectid={${i}}`))
+    // console.log("Project", issues);
+    ;
+    // if(props.title === "Total Issues:"){
+    //   return setNumber(result.data.length);
+    // }
+    // if(props.title === "Open:"){
+    //   const open = result.data.filter(x => x.priority.toLowerCase() === PRIORITY_ONE)
+    //   console.log(result.data)
+    //   return setNumber(open.length);
+    // }
+    // if(props.title === "In Progress:"){
+    //   const inProgress = result.data.filter(x => x.priority.toLowerCase() === PRIORITY_TWO)
+    //   return setNumber(inProgress.length);
+    // }
+    // if(props.title === "Completed:"){
+    //   const completed = result.data.filter(x => x.priority.toLowerCase() === PRIORITY_THREE)
+    //   return setNumber(completed.length);
+    // }
+      // return setNumber(0);
   },[])
   const classes = useStyles();
  
