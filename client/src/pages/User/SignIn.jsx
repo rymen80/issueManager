@@ -1,9 +1,10 @@
 import React from "react";
 import { reduxForm, Field } from "redux-form";
+import { useSelector } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
-import { setViewerToken } from "../ViewerReducer";
+import { setUserToken,getUser } from "./UserReducer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
@@ -11,11 +12,11 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import issUseLogo from "../../../images/issUse.png";
-import issUseShortLogo from "../../../images/issUseLogo.png";
-import issUseBannerTransparent from "../../../images/issUseBannerTransparent.png";
+import issUseLogo from "../../images/issUse.png";
+import issUseShortLogo from "../../images/issUseLogo.png";
+import issUseBannerTransparent from "../../images/issUseBannerTransparent.png";
 import SettingsIcon from "@material-ui/icons/Settings";
-import { LoginPagesCopyright } from "../../../pages/common/components/LoginPagesCopyright";
+import { LoginPagesCopyright } from "../common/components/LoginPagesCopyright";
 
 const TextFieldInput = ({ input, meta, label, ...custom }) => {
   console.log("FIELD COMPONENT PROPS", custom);
@@ -69,16 +70,22 @@ const SignIn = (props) => {
   const classes = useStyles();
   const { handleSubmit, history } = props;
   // const history = useHistory();
-
+  const st=useSelector((state) => state.user);
+  console.log("STATE",st);
   console.log(props);
   const handleSignIn = async (formValues, dispatch) => {
     // console.log(formValues);
     //{ username: 'Your enterereduseRName', password: 'your password' }
     try {
+      localStorage.removeItem("userauth");
       const res = await axios.post("/auth/signin", formValues);
       localStorage.setItem("userauth", JSON.stringify(res.data));
-      dispatch(setViewerToken(res.data));
+      dispatch(
+        setUserToken({userauth:res.data, invalidLogin: false})
+        );
+      dispatch(getUser({id:res.data.id,username:res.data.username}));
       history.push("/users");
+     
     } catch (e) {
       throw new Error(e);
     }

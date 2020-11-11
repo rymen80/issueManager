@@ -7,6 +7,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import { makeStyles } from "@material-ui/core/styles";
+import { setVisibility } from "../../../pages/User/UserPageReducer";
+import { useDispatch } from "react-redux";
 
 const validate = (values) => {
   const errors = {};
@@ -35,23 +37,27 @@ const renderTextField = ({
     {...custom}
   />
 );
-const renderDescriptionField = ({ label, input,meta: { touched, invalid, error },
-  ...custom }) => (
+const renderDescriptionField = ({
+  label,
+  input,
+  meta: { touched, invalid, error },
+  ...custom
+}) => (
   <TextField
-  id={label}
-  name="description"
-  label="Description"
-  multiline
-  error={touched && invalid}
-  helperText={touched && error}
-  fullWidth
-  rows={8}
-  defaultValue="Description of Issue"
-  variant="outlined"
-  {...input}
+    id={label}
+    name="description"
+    label="Description"
+    multiline
+    error={touched && invalid}
+    helperText={touched && error}
+    fullWidth
+    rows={8}
+    defaultValue="Description of Issue"
+    variant="outlined"
+    {...input}
     {...custom}
-/>
-)
+  />
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
     width: "75%",
     margin: "0 auto",
     boxShadow: " 3px 3px 5px 6px #ccc",
+    position: "absolute",
+    left: "10%",
+    background: "white",
   },
   formContents: {
     margin: theme.spacing(3),
@@ -68,11 +77,10 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: ".5px solid #00000026",
   },
   formControl: {
-    
     minWidth: 120,
   },
   title: {
-    width: '80%',
+    width: "80%",
   },
   buttonContainer: {
     display: "flex",
@@ -85,17 +93,21 @@ const useStyles = makeStyles((theme) => ({
   },
   description: {
     margin: "40px 0",
-  }
+  },
 }));
 
 const CreateIssueForm = (props) => {
-  
+  const dispatch = useDispatch();
   const style = useStyles();
   const { handleSubmit, pristine, reset, submitting, classes } = props;
   const [project, setProject] = useState("");
 
   const handleChange = (event) => {
     setProject(event.target.value);
+  };
+
+  const handleClick = () => {
+    dispatch(setVisibility());
   };
   return (
     <form className={style.root} onSubmit={handleSubmit}>
@@ -105,7 +117,7 @@ const CreateIssueForm = (props) => {
         </div>
         <div>
           <FormControl className={style.formControl}>
-            <InputLabel >Project</InputLabel>
+            <InputLabel>Project</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -126,7 +138,7 @@ const CreateIssueForm = (props) => {
           <Field
             name="description"
             label="Description"
-           component={renderDescriptionField}
+            component={renderDescriptionField}
           />
         </div>
         <div className={style.buttonContainer}>
@@ -137,7 +149,12 @@ const CreateIssueForm = (props) => {
           >
             Clear Values
           </Button>
-          <Button type="submit" variant="contained" className={style.button}>
+          <Button
+            type="submit"
+            variant="contained"
+            className={style.button}
+            onClick={handleClick}
+          >
             Submit
           </Button>
         </div>
