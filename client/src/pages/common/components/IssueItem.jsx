@@ -31,7 +31,7 @@ export default function IssueItem(props) {
         <Card className={classes.root} variant="outlined">
             <CardContent>
                 {
-                    Object.values(props.somethingelse).map((item, index) => (
+                    Object.values(props.data).map((item, index) => (
                         <StyledButton key={index}>
                             {item}
                         </StyledButton>
