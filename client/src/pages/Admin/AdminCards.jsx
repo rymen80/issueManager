@@ -6,6 +6,10 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import {useHistory} from 'react-router-dom';
+import {useSelector,useDispatch} from 'react-redux';
+import axios from "axios";
+import { getAllProjects } from "./adminPageReducer";
 
 const useStyles = makeStyles({
   root: {
@@ -35,9 +39,26 @@ const useStyles = makeStyles({
   }
 });
 
+
+
+
 export default function AdminCards(props) {
   const classes = useStyles();
+  const history = useHistory();
+  const adminState = useSelector((state)=>state.admin);
+  const adminPageState = useSelector((state)=>state.adminPage);
+  const dispatch = useDispatch(adminPageState);
   const bull = <span className={classes.bullet}>•</span>;
+  console.log(adminPageState.projects);
+  const handleViewAllProjectClick = async ()=>{
+
+    const res = await axios.get("/api/projects", {params:{userid:1}});
+    // console.log(res.data);
+    // console.log("OK I AM HERE");
+    dispatch(getAllProjects(res.data));
+    history.push("/admin/adminpage/projects");
+    
+  }
 
   return (
     <Container>
@@ -55,7 +76,7 @@ export default function AdminCards(props) {
           <Typography variant="body2" component="p">
             View/ Edit entities such as 'Project', 'User', 'Label'
           </Typography>
-          <Button variant="contained" color="primary" size="medium" className={classes.button}>
+          <Button variant="contained" color="primary" size="medium" className={classes.button}  onClick={handleViewAllProjectClick}>
             View Projects
           </Button>
           <Button variant="contained" color="primary" size="medium" className={classes.button} >
