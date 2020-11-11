@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     marginBottom: theme.spacing(3),
     backgroundColor: "#f03311!important",
+    color:"#e6e6ff"
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -70,7 +71,7 @@ export default function ButtonAppBar() {
       <AppBar position="static" className={classes.root}>
         <muiCore.Toolbar>
           <muiCore.Typography variant="h6" className={classes.logo}>
-            <img src={issUseLogo} height={"20px"} />
+            <img src={issUseLogo} height={"20px"}/>
           </muiCore.Typography>
           <muiCore.Typography variant="h6" className={classes.title}>
             Admin Console
