@@ -71,7 +71,9 @@ export default function ButtonAppBar() {
       <AppBar position="static" className={classes.root}>
         <muiCore.Toolbar>
           <muiCore.Typography variant="h6" className={classes.logo}>
+            <Link to="/admin/adminpage">
             <img src={issUseLogo} height={"20px"}/>
+            </Link>
           </muiCore.Typography>
           <muiCore.Typography variant="h6" className={classes.title}>
             Admin Console
