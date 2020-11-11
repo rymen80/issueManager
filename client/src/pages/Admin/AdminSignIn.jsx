@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
-import { setAdminToken } from "./adminReducer";
+import { setAdminToken,getUser } from "./adminReducer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
@@ -89,6 +89,12 @@ const AdminSignIn = (props) => {
             adminauth: res.data,
             invalidLogin: false,
             authorized: true,
+          })
+        );
+        dispatch(
+          getUser({
+            id: res.data.id,
+            username: res.data.username,            
           })
         );
         history.push("/admin/adminpage");
