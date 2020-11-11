@@ -158,7 +158,7 @@ const AdminSignIn = (props) => {
             color="inherit"
             startIcon={<img src={apiLogo} height="22px" />}
             onClick={() => {
-              history.push("/api-docs");
+              history.push("/api-docs/");
             }}
           >
             API DOCS
