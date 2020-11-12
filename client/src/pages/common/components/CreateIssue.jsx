@@ -15,18 +15,16 @@ import axios from "axios";
 
 let projectResult;
 
- //axios requests
+//axios requests
 
+axios.get("/api/projects").then((res) => {
+  //  let name = res.data.map(i => i.project_name);
+  //  let id = res.data.map(i => i.project_id);
+  //  projectName.push(name)
+  //  projectId.push(id)
+  projectResult = res.data;
+});
 
- axios.get('/api/projects')
-    .then((res) => {
-    //  let name = res.data.map(i => i.project_name);
-    //  let id = res.data.map(i => i.project_id);
-    //  projectName.push(name)
-    //  projectId.push(id)
-    projectResult = res.data;
-    })
-    
 let projectId;
 let users;
 // axios.get(`/api/users?projectid=1`)
@@ -34,7 +32,6 @@ let users;
 //  users = res.data;
 //  console.log("USERS", users)
 // })
-    
 
 const validate = (values) => {
   const errors = {};
@@ -137,20 +134,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CreateIssueForm = (props) => {
-  const userauth= useSelector(state=>state.user.userauth.token)
+  const userauth = useSelector((state) => state.user.userauth.token);
   const dispatch = useDispatch();
   const style = useStyles();
-  const { handleSubmit, pristine, reset, submitting} = props;
+  const { handleSubmit, pristine, reset, submitting } = props;
   const [project, setProject] = useState("");
   const [priority, setPriority] = useState("");
   const [resolution, setResolution] = useState("");
-  let titleValue;
-  let descriptionValue;
+  const [label, setLabel] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
   let assignedValue;
-  let labelValue;
 
   projectId = project;
-
 
   const handleProjectChange = (event) => {
     setProject(event.target.value);
@@ -163,37 +160,39 @@ const CreateIssueForm = (props) => {
   };
 
   const handleTitleChange = (event) => {
-    titleValue = event.target.value;
-  }
+    setTitle(event.target.value);
+  };
   const handleDescriptionChange = (event) => {
-    descriptionValue = event.target.value;
-  }
+    setDescription(event.target.value);
+  };
 
-  const handleAssignedChange =(event) => {
+  const handleAssignedChange = (event) => {
     assignedValue = event.target.value;
-  }
-  const handleLabelChange =(event) => {
-    labelValue = event.target.value;
-   
-  }
+  };
+  const handleLabelChange = (event) => {
+    setLabel(event.target.value);
+  };
   const handleClick = async (e) => {
     e.preventDefault();
-    await axios.post("api/issues", 
+    await axios.post(
+      "api/issues",
       {
-        "summary": titleValue,//not showing up...
-        "description": descriptionValue, //done
-        "assigned_to": 5,
-        "status": 1, //done
-        "priority": priority, //done
-        "project_id": project, //done
-        "resolution_id": resolution, //hard coded for now since there is no route
-        "label": 2,
+        summary: title, //done
+        description: description, //done
+        assigned_to: 5,//hardcoded for now, can update once admin auth is removed from request
+        status: 1, //done
+        priority: priority, //done
+        project_id: project, //done
+        resolution_id: resolution, //hard coded for now since there is no route
+        label: label, //hard coded, no route
       },
-      {headers: {
-        'authorization': userauth
-      }}
-    )
-    
+      {
+        headers: {
+          authorization: userauth,
+        },
+      }
+    );
+
     dispatch(setVisibility());
   };
 
@@ -213,8 +212,7 @@ const CreateIssueForm = (props) => {
               value={project}
               name="project"
             >
-              {console.log('PROJECTS', projectResult)}
-              {projectResult.map(i => (
+              {projectResult.map((i) => (
                 <MenuItem value={i.project_id}>{i.project_name}</MenuItem>
               ))}
             </Select>
@@ -228,10 +226,10 @@ const CreateIssueForm = (props) => {
               name="priority"
               onChange={handlePriorityChange}
             >
-              <MenuItem value='P0'>P0</MenuItem>
-              <MenuItem value='P1'>P1</MenuItem>
-              <MenuItem value='P2'>P2</MenuItem>
-              <MenuItem value='P3'>P3</MenuItem>
+              <MenuItem value="P0">P0</MenuItem>
+              <MenuItem value="P1">P1</MenuItem>
+              <MenuItem value="P2">P2</MenuItem>
+              <MenuItem value="P3">P3</MenuItem>
             </Select>
           </FormControl>
           <FormControl className={style.formControl}>
@@ -260,7 +258,6 @@ const CreateIssueForm = (props) => {
               onChange={handleAssignedChange}
             >
               <MenuItem value="Me">Me</MenuItem>
-             
             </Select>
           </FormControl>
           <FormControl className={style.formControl}>
@@ -268,17 +265,26 @@ const CreateIssueForm = (props) => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={labelValue}
+              value={label}
               name="label"
               onChange={handleLabelChange}
             >
-              <MenuItem value="Me">Me</MenuItem>
-             
+              <MenuItem value="1">Documentation</MenuItem>
+              <MenuItem value="2">Bug</MenuItem>
+              <MenuItem value="3">Enhancement</MenuItem>
+              <MenuItem value="4">Project Task</MenuItem>
+              <MenuItem value="5">Feature</MenuItem>
             </Select>
           </FormControl>
         </div>
         <div className={style.title}>
-          <Field name="title" component={renderTextField} label="Title" value="title" onChange={handleTitleChange}/>
+          <Field
+            name="title"
+            component={renderTextField}
+            label="Title"
+            value="title"
+            onChange={handleTitleChange}
+          />
         </div>
         <div className={style.description}>
           <Field
