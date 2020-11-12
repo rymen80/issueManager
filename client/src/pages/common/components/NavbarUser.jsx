@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -6,15 +6,14 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import ReportIssueButton from './ReportIssueButton';
 import ProjectSelector from './ProjectSelector';
 import { setVisibility }from '../../../pages/User/UserPageReducer'
 import { useDispatch } from 'react-redux';
+import issUseLogo from "../../../images/issUseLogo.png";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,9 +22,28 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  title: {
-    flexGrow: 1,
+
+  logo: {
+    backgroundColor: "white",
+    height: "40px",
+    width: "40px",
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: "20px",
+    borderColor:"blue",
+    border:"1px",
   },
+  userIcon: {
+    right: '2%',
+    position: 'absolute',
+  },
+  projectButton: {
+    position: 'absolute',
+    right: "6%",
+  }
+
 }));
 
 export default function NavbarUser() {
@@ -35,6 +53,7 @@ export default function NavbarUser() {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const history = useHistory();
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
@@ -49,9 +68,13 @@ export default function NavbarUser() {
   };
 
   const handleClick= () => {
-  // useDispatch(setVisibility()); 
-   
     dispatch(setVisibility());
+  }
+  
+  const handleSignOut = () => {
+    localStorage.removeItem('userauth');
+    history.push('/');
+    console.log("SIGN OUT")
   }
 
   return (
@@ -68,17 +91,19 @@ export default function NavbarUser() {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            IssUse
+          <Typography variant="h6" className={classes.logo}>
+               <img src={issUseLogo} height={"20px"}/>
           </Typography>
-          <IconButton>
-            <ProjectSelector/>
-          </IconButton>
           <IconButton>
             <ReportIssueButton onClick={handleClick} />
           </IconButton>
+          
+          <IconButton className={classes.projectButton}>
+            <ProjectSelector/>
+          </IconButton>
+         
           {auth && (
-            <div>
+            <div className={classes.userIcon}>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -104,7 +129,7 @@ export default function NavbarUser() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
               </Menu>
             </div>
           )}

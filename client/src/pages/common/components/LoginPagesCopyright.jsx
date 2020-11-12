@@ -7,7 +7,7 @@ export function LoginPagesCopyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="https://github.com/rymen80/issueManager/blob/master/readme.md">
         issUse
       </Link>{" "}
       {new Date().getFullYear()}

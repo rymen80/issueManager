@@ -1,8 +1,8 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
+  // BrowserRouter as Router,
   Route,
-  Switch,
+  // Switch,
   Redirect,
 } from "react-router-dom";
 export const ProtectedRoute = ({ component: Comp, loggedIn, path,redirectTo, ...rest }) => {
