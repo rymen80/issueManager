@@ -37,10 +37,10 @@ function UserView() {
       <NavbarUser></NavbarUser>
 
       {visibility ? <CreateIssue/>: null}
-      <div className={classes.status}>
+      {/* <div className={classes.status}>
         <StatusCard title="Total Issues:" />
         <StatusCard title="Open:" />
-      </div>
+      </div> */}
       <div className={classes.issues}>
       <ViewIssues ></ViewIssues>
       </div>

@@ -41,6 +41,7 @@ export default function Footer() {
                     <a
                         href="https://github.com/rymen80/issueManager"
                         target="_blank"
+                        rel="noopener noreferrer"
                         className={classes.a}
                     >
                         IssUse 
