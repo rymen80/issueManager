@@ -13,7 +13,7 @@ import { WrappedSignIn } from "./pages/User";
 import { WrappedAdminSignIn, AdminPage } from "./pages/Admin";
 import {ProtectedRoute} from './ProtectedRoute'
 import {useSelector} from 'react-redux';
-import UserPage from './pages/common/components/UserView'
+import UserPage from './pages/User/UserView'
 
 function App() {
   const st = useSelector((state) => state.admin);
