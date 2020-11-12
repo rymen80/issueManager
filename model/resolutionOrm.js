@@ -19,7 +19,7 @@ const fetchAllResolutions = async () => {
 
 // Fetch all Resolutions by ResolutionID
 
-const fetchAllResolutionsByResolutionID = async (resolutionID) => {
+const fetchResolutionsByResolutionID = async (resolutionID) => {
     try {
         const [rows] = await connection.query(getResolutionByResolutionIdQuery, resolutionID );
         return rows[0];
@@ -31,7 +31,7 @@ const fetchAllResolutionsByResolutionID = async (resolutionID) => {
 
 module.exports = {
     fetchAllResolutions,
-    fetchAllResolutionsByResolutionID,
+    fetchResolutionsByResolutionID,
 }
 
 

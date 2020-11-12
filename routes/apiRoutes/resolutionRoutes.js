@@ -1,6 +1,6 @@
 const {
     getAllResolutionsAPI,
-    getAllResolutionsByResolutionIdAPI,
+    getResolutionsByResolutionIdAPI,
 } = require('../../controllers/resolutionCotroller');
 
 const authMiddleware = require('../../middlewares/authorizationMiddleware');
@@ -14,6 +14,6 @@ router.use(authMiddleware);
 
 router.route("/").get(getAllResolutionsAPI);
 
-router.route("/:resolutionId").get(getAllResolutionsByResolutionIdAPI);
+router.route("/:resolutionId").get(getResolutionsByResolutionIdAPI);
 
 module.exports = router;

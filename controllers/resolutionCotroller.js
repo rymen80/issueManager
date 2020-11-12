@@ -1,6 +1,6 @@
 const {
     fetchAllResolutions,
-    fetchAllResolutionsByResolutionID,
+    fetchResolutionsByResolutionID,
 } = require('../model/resolutionOrm');
 
 
@@ -22,7 +22,7 @@ async function getResolutionsByResolutionIdAPI (req,res) {
     const { resolutionId } = req.params;
     console.log(req.query);
     try {
-        let resolutionById = await fetchAllResolutionsByResolutionID(resolutionId);
+        let resolutionById = await fetchResolutionsByResolutionID(resolutionId);
         res.json(resolutionById);
 
     } catch (e) {
