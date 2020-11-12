@@ -1,8 +1,3 @@
-require("dotenv").config();
-const mysql = require('mysql2');
-connection = mysql.createConnection(process.env.JAWSDB_URL).promise();
-
-
 const {
   findAllCommentQuery,
   findAllCommentIdQuery,
@@ -11,6 +6,8 @@ const {
   findAllCommentUserIdQuery,
   findAllCommentDateTimeQuery,
 } = require('./commentQueries');
+const connection = require("../config/connection");
+
 
 const fetchAllComments = async () => {
   try {

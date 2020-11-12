@@ -1,12 +1,10 @@
-require("dotenv").config();
-const mysql = require('mysql2');
-connection = mysql.createConnection(process.env.JAWSDB_URL).promise();
-
 const {
   findAllLabelQuery,
   findLabelIdQuery,
   findLabelNameQuery,
-} = require('./labelQueries')
+} = require('./labelQueries');
+const connection = require("../config/connection");
+
 
 const fetchAllLabel = async () => {
   try {
