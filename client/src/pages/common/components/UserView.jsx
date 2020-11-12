@@ -4,7 +4,7 @@ import CreateIssue from "./CreateIssue";
 import ViewIssues from "./ViewIssues";
 import NavbarUser from "./NavbarUser";
 import { makeStyles } from "@material-ui/core/styles";
-import Footer from "./willTools/Footer";
+import Footer from "./Footer2";
 import { useSelector} from 'react-redux';
 
 const useStyles = makeStyles({
