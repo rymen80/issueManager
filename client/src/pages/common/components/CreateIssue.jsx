@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Field, reduxForm } from "redux-form";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
-import ListItemText from "@material-ui/core/ListItemText";
+// import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -10,9 +10,10 @@ import InputLabel from "@material-ui/core/InputLabel";
 import { makeStyles } from "@material-ui/core/styles";
 import { setVisibility } from "../../../pages/User/UserPageReducer";
 import { useDispatch } from "react-redux";
-import axios from "axios";
+import {projectName } from './ProjectSelector'
+// import axios from "axios";
 
-let projectsForm = [];
+
 
 const validate = (values) => {
   const errors = {};
@@ -117,16 +118,18 @@ const useStyles = makeStyles((theme) => ({
 const CreateIssueForm = (props) => {
   const dispatch = useDispatch();
   const style = useStyles();
-  const { handleSubmit, pristine, reset, submitting, classes } = props;
+  const { handleSubmit, pristine, reset, submitting} = props;
   const [project, setProject] = useState("");
   const [priority, setPriority] = useState("");
   const [resolution, setResolution] = useState("");
 
   const handleProjectChange = (event) => {
     setProject(event.target.value);
+    
   };
   const handlePriorityChange = (event) => {
     setPriority(event.target.value);
+    console.log("PRIORITY",event)
   };
   const handleResolutionChange = (event) => {
     setResolution(event.target.value);
@@ -134,14 +137,9 @@ const CreateIssueForm = (props) => {
 
   const handleClick = () => {
     dispatch(setVisibility());
+     
   };
 
-  useEffect(async () => {
-    let projectResult = await axios.get("/api/projects");
-    const projects = projectResult.data.map((i) => i.project_name);
-    projects.push(projectsForm);
-  }, []);
-  console.log(projectsForm);
   return (
     <form className={style.root} onSubmit={handleSubmit}>
       <div className={style.formContents}>
@@ -154,13 +152,14 @@ const CreateIssueForm = (props) => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
+              onChange={handleProjectChange}
               value={project}
               name="project"
-              onChange={handleProjectChange}
+              
             >
-              {console.log("PROJECT___", projectsForm)}
-              {projectsForm.map((name) => (
-                <MenuItem>{name}</MenuItem>
+              
+              {projectName.map((name) => (
+                <MenuItem value={name}>{name}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -173,10 +172,10 @@ const CreateIssueForm = (props) => {
               name="priority"
               onChange={handlePriorityChange}
             >
-              <MenuItem>P0</MenuItem>
-              <MenuItem>P1</MenuItem>
-              <MenuItem>P2</MenuItem>
-              <MenuItem>P3</MenuItem>
+              <MenuItem value='P0'>P0</MenuItem>
+              <MenuItem value='P1'>P1</MenuItem>
+              <MenuItem value='P2'>P2</MenuItem>
+              <MenuItem value='P3'>P3</MenuItem>
             </Select>
           </FormControl>
           <FormControl className={style.formControl}>
@@ -188,11 +187,11 @@ const CreateIssueForm = (props) => {
               name="resolution"
               onChange={handleResolutionChange}
             >
-              <MenuItem>Not A Defect</MenuItem>
-              <MenuItem>In-Fix</MenuItem>
-              <MenuItem>Fixed</MenuItem>
-              <MenuItem>Won't Fix</MenuItem>
-              <MenuItem>Done</MenuItem>
+              <MenuItem value="Not A Defect">Not A Defect</MenuItem>
+              <MenuItem value="In-Fix">In-Fix</MenuItem>
+              <MenuItem value="Fixed">Fixed</MenuItem>
+              <MenuItem value="Won't Fix">Won't Fix</MenuItem>
+              <MenuItem value="Done">Done</MenuItem>
             </Select>
           </FormControl>
         </div>

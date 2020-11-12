@@ -6,7 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import axios from 'axios';
 
-let projectName = [];
+export let projectName = [];
 
 const StyledMenu = withStyles({
   paper: {
