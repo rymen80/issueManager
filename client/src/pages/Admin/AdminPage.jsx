@@ -1,19 +1,24 @@
-import { Container } from '@material-ui/core';
 import React from 'react';
+import { Switch, Route,useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import '../../styles/App.css';
+import * as components from '../common/components';
+import AdminCards from './AdminCards';
+import ViewAllProjects from './ViewAllProjects'
+// import {AdminContainer} from './AdminCards';
+
 
 export function AdminPage(){
   return (
     <>
-    <Grid container spacing={1}>
-        <Grid item xs={8} className="grid-item">
-          <h1>Hey</h1>
-        </Grid>
-        <Grid item xs={4}>
-        <h1>Ho</h1>
-        </Grid>
-      </Grid>
+    <components.AdminNavbar /> 
+    {/* <AdminCards /> */}
+    <Switch>
+    <Route exact path='/admin/adminpage' component={AdminCards}/>
+      <Route path='/admin/adminpage/projects' component={ViewAllProjects}/>
+      {/* <Route exact path='/users/create' component={UserCreateForm}/>
+      <Route exact path='/users/user/:userId' component={UserSingleView} /> */}
+    </Switch>
     </>
   );
 }

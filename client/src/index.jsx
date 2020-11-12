@@ -9,13 +9,13 @@ import App from './App';
 import rootReducer from './redux';
 
 const logger = createLogger({
-  predicate: (getState, action) => (
-    (action.type !== '@@redux-form/CHANGE') &&
-    (action.type !== '@@redux-form/BLUR') &&
-    (action.type !== '@@redux-form/FOCUS') &&
-    (action.type !== '@@redux-form/UPDATE_SYNC_ERRORS') &&
-    (action.type !== '@@redux-form/TOUCH')
-  ),
+  // predicate: (getState, action) => (
+  //   (action.type !== '@@redux-form/CHANGE') &&
+  //   (action.type !== '@@redux-form/BLUR') &&
+  //   (action.type !== '@@redux-form/FOCUS') &&
+  //   (action.type !== '@@redux-form/UPDATE_SYNC_ERRORS') &&
+  //   (action.type !== '@@redux-form/TOUCH')
+  // ),
 });
 
 const store = configureStore({

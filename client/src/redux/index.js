@@ -4,6 +4,7 @@ import {
   userReducer,
   userPageReducer,
   adminReducer,
+  adminPageReducer,
 } from '../pages';
 // This will shape what the store looks like for us
 // So the key passed into here, will be the root name of the state
@@ -13,4 +14,5 @@ export default combineReducers({
   userPage: userPageReducer,
   user:userReducer,
   admin:adminReducer,
+  adminPage:adminPageReducer,
 });

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Field, reduxForm } from "redux-form";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
+// import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -9,10 +10,20 @@ import InputLabel from "@material-ui/core/InputLabel";
 import { makeStyles } from "@material-ui/core/styles";
 import { setVisibility } from "../../../pages/User/UserPageReducer";
 import { useDispatch } from "react-redux";
+import {projectName } from './ProjectSelector'
+// import axios from "axios";
+
+
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = ["project", "title", "description"];
+  const requiredFields = [
+    "project",
+    "priority",
+    "resolution",
+    "title",
+    "description",
+  ];
   requiredFields.forEach((field) => {
     if (!values[field]) {
       errors[field] = "Required";
@@ -79,6 +90,10 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     minWidth: 120,
   },
+  header: {
+    fontFamily: "Roboto",
+    fontWeight: "lighter",
+  },
   title: {
     width: "80%",
   },
@@ -94,40 +109,89 @@ const useStyles = makeStyles((theme) => ({
   description: {
     margin: "40px 0",
   },
+  dropdowns: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
 }));
 
 const CreateIssueForm = (props) => {
   const dispatch = useDispatch();
   const style = useStyles();
-  const { handleSubmit, pristine, reset, submitting, classes } = props;
+  const { handleSubmit, pristine, reset, submitting} = props;
   const [project, setProject] = useState("");
+  const [priority, setPriority] = useState("");
+  const [resolution, setResolution] = useState("");
 
-  const handleChange = (event) => {
+  const handleProjectChange = (event) => {
     setProject(event.target.value);
+    
+  };
+  const handlePriorityChange = (event) => {
+    setPriority(event.target.value);
+    console.log("PRIORITY",event)
+  };
+  const handleResolutionChange = (event) => {
+    setResolution(event.target.value);
   };
 
   const handleClick = () => {
     dispatch(setVisibility());
+     
   };
+
   return (
     <form className={style.root} onSubmit={handleSubmit}>
       <div className={style.formContents}>
         <div className={style.borderBottom}>
-          <h1>Create Issue</h1>
+          <h1 className={style.header}>Create Issue</h1>
         </div>
-        <div>
+        <div className={style.dropdowns}>
           <FormControl className={style.formControl}>
             <InputLabel>Project</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
+              onChange={handleProjectChange}
               value={project}
               name="project"
-              onChange={handleChange}
+              
             >
-              <MenuItem value={1}>Project 1</MenuItem>
-              <MenuItem value={2}>Project 2</MenuItem>
-              <MenuItem value={3}>Project 3</MenuItem>
+              
+              {projectName.map((name) => (
+                <MenuItem value={name}>{name}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl className={style.formControl}>
+            <InputLabel>Priority</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={priority}
+              name="priority"
+              onChange={handlePriorityChange}
+            >
+              <MenuItem value='P0'>P0</MenuItem>
+              <MenuItem value='P1'>P1</MenuItem>
+              <MenuItem value='P2'>P2</MenuItem>
+              <MenuItem value='P3'>P3</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl className={style.formControl}>
+            <InputLabel>Resolution</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={resolution}
+              name="resolution"
+              onChange={handleResolutionChange}
+            >
+              <MenuItem value="Not A Defect">Not A Defect</MenuItem>
+              <MenuItem value="In-Fix">In-Fix</MenuItem>
+              <MenuItem value="Fixed">Fixed</MenuItem>
+              <MenuItem value="Won't Fix">Won't Fix</MenuItem>
+              <MenuItem value="Done">Done</MenuItem>
             </Select>
           </FormControl>
         </div>

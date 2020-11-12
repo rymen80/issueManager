@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
-import { setAdminToken } from "./adminReducer";
+import { setAdminToken, getUser } from "./adminReducer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
@@ -12,6 +12,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import issUseLogo from "../../images/issUse.png";
+import apiLogo from "../../images/swagger.png";
 import PersonIcon from "@material-ui/icons/PersonOutline";
 import { LoginPagesCopyright } from "../common/components/LoginPagesCopyright";
 import { Hidden } from "@material-ui/core";
@@ -23,7 +24,6 @@ const TextFieldInput = ({ input, meta, label, ...custom }) => {
 };
 
 // *** Field Validations To Be defined here :TBD
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +50,18 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     top: "1%",
-    left: "70%",
+    marginRight: 5,
+  },
+  buttonBar: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "end",
+    position: "absolute",
+    width: "100%",
+    top: "1%",
+    borderColor: "red",
+    borderStyle: "1px solid red",
+    left: "60%",
   },
   avatar: {
     margin: theme.spacing(6),
@@ -63,14 +74,14 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    background: "#4049cc", //"#638FBC",
+    background: "#4049cc",
     color: "white",
   },
 }));
 
 const AdminSignIn = (props) => {
   const classes = useStyles();
-  const { handleSubmit, history } = props;  
+  const { handleSubmit, history } = props;
   const st = useSelector((state) => state.admin);
 
   console.log(props);
@@ -89,6 +100,12 @@ const AdminSignIn = (props) => {
             adminauth: res.data,
             invalidLogin: false,
             authorized: true,
+          })
+        );
+        dispatch(
+          getUser({
+            id: res.data.id,
+            username: res.data.username,
           })
         );
         history.push("/admin/adminpage");
@@ -124,17 +141,29 @@ const AdminSignIn = (props) => {
         </span>
       </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <Button
-          variant="outlined"
-          color="inherit"
-          className={classes.button}
-          startIcon={<PersonIcon />}
-          onClick={() => {
-            history.push("/");
-          }}
-        >
-          User Sign In
-        </Button>
+        <div className={classes.buttonBar}>
+          <Button
+            variant="outlined"
+            color="inherit"
+            className={classes.button}
+            startIcon={<PersonIcon />}
+            onClick={() => {
+              history.push("/");
+            }}
+          >
+            User Sign In
+          </Button>
+          <Button
+            variant="outlined"
+            color="inherit"
+            startIcon={<img src={apiLogo} height="22px" />}
+            onClick={() => {
+              history.push("/api-docs/");
+            }}
+          >
+            API DOCS
+          </Button>
+        </div>
         <div className={classes.paper}>
           <img src={issUseLogo} className={classes.avatar} />
           <Typography component="h1" variant="h5">
@@ -158,7 +187,7 @@ const AdminSignIn = (props) => {
               name="username"
               label="username"
               autoComplete="username"
-              component={TextFieldInput}              
+              component={TextFieldInput}
             />
             <Field
               variant="outlined"
@@ -170,7 +199,7 @@ const AdminSignIn = (props) => {
               autoComplete="password"
               type="password"
               name="password"
-              component={TextFieldInput}              
+              component={TextFieldInput}
             />
             <Button
               onClick={handleSubmit(handleSignIn)}
