@@ -1,10 +1,10 @@
 import React from "react";
-import StatusCard from "./StatusCard";
-import CreateIssue from "./CreateIssue";
-import ViewIssues from "./ViewIssues";
-import NavbarUser from "./NavbarUser";
+import StatusCard from "../common/components/StatusCard";
+import CreateIssue from "../common/components/CreateIssue";
+import ViewIssues from "../common/components/ViewIssues";
+import NavbarUser from "../common/components/NavbarUser";
 import { makeStyles } from "@material-ui/core/styles";
-import Footer from "./willTools/Footer";
+import Footer from "../common/components/Footer2";
 import { useSelector} from 'react-redux';
 
 const useStyles = makeStyles({

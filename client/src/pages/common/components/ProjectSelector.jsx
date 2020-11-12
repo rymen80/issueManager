@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import axios from 'axios';
 
 export let projectName = [];
+export let projectResult = []
 
 const StyledMenu = withStyles({
   paper: {
@@ -52,7 +53,7 @@ export default function ProjectSelector() {
 
  
   useEffect(async () => {
-    let projectResult = await axios.get('/api/projects')
+    projectResult = await axios.get('/api/projects')
      projectName = projectResult.data.map(i => i.project_name)
   },[])
 

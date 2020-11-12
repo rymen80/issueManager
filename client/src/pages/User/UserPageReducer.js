@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const INITIAL_STATE = {
+  projects: [],
+  labels: [],
+  users: [],
+  issues: [],
   visibility: false,
 };
 
