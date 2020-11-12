@@ -1,19 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
-// import ListItemText from "@material-ui/core/ListItemText";
+import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import { makeStyles } from "@material-ui/core/styles";
 import { setVisibility } from "../../../pages/User/UserPageReducer";
-import { useDispatch } from "react-redux";
-import {projectName } from './ProjectSelector'
-// import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+// import {projectResult } from './ProjectSelector'
+import axios from "axios";
+
+let projectResult;
+
+ //axios requests
 
 
+ axios.get('/api/projects')
+    .then((res) => {
+    //  let name = res.data.map(i => i.project_name);
+    //  let id = res.data.map(i => i.project_id);
+    //  projectName.push(name)
+    //  projectId.push(id)
+    projectResult = res.data;
+    })
+    
+let projectId;
+let users;
+// axios.get(`/api/users?projectid=1`)
+// .then((res) => {
+//  users = res.data;
+//  console.log("USERS", users)
+// })
+    
 
 const validate = (values) => {
   const errors = {};
@@ -116,28 +137,64 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CreateIssueForm = (props) => {
+  const userauth= useSelector(state=>state.user.userauth.token)
   const dispatch = useDispatch();
   const style = useStyles();
   const { handleSubmit, pristine, reset, submitting} = props;
   const [project, setProject] = useState("");
   const [priority, setPriority] = useState("");
   const [resolution, setResolution] = useState("");
+  let titleValue;
+  let descriptionValue;
+  let assignedValue;
+  let labelValue;
+
+  projectId = project;
+
 
   const handleProjectChange = (event) => {
     setProject(event.target.value);
-    
   };
   const handlePriorityChange = (event) => {
     setPriority(event.target.value);
-    console.log("PRIORITY",event)
   };
   const handleResolutionChange = (event) => {
     setResolution(event.target.value);
   };
 
-  const handleClick = () => {
+  const handleTitleChange = (event) => {
+    titleValue = event.target.value;
+  }
+  const handleDescriptionChange = (event) => {
+    descriptionValue = event.target.value;
+  }
+
+  const handleAssignedChange =(event) => {
+    assignedValue = event.target.value;
+  }
+  const handleLabelChange =(event) => {
+    labelValue = event.target.value;
+   
+  }
+  const handleClick = async (e) => {
+    e.preventDefault();
+    await axios.post("api/issues", 
+      {
+        "summary": titleValue,//not showing up...
+        "description": descriptionValue, //done
+        "assigned_to": 5,
+        "status": 1, //done
+        "priority": priority, //done
+        "project_id": project, //done
+        "resolution_id": resolution, //hard coded for now since there is no route
+        "label": 2,
+      },
+      {headers: {
+        'authorization': userauth
+      }}
+    )
+    
     dispatch(setVisibility());
-     
   };
 
   return (
@@ -155,11 +212,10 @@ const CreateIssueForm = (props) => {
               onChange={handleProjectChange}
               value={project}
               name="project"
-              
             >
-              
-              {projectName.map((name) => (
-                <MenuItem value={name}>{name}</MenuItem>
+              {console.log('PROJECTS', projectResult)}
+              {projectResult.map(i => (
+                <MenuItem value={i.project_id}>{i.project_name}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -187,22 +243,49 @@ const CreateIssueForm = (props) => {
               name="resolution"
               onChange={handleResolutionChange}
             >
-              <MenuItem value="Not A Defect">Not A Defect</MenuItem>
-              <MenuItem value="In-Fix">In-Fix</MenuItem>
-              <MenuItem value="Fixed">Fixed</MenuItem>
-              <MenuItem value="Won't Fix">Won't Fix</MenuItem>
-              <MenuItem value="Done">Done</MenuItem>
+              <MenuItem value="1">Not A Defect</MenuItem>
+              <MenuItem value="2">In-Fix</MenuItem>
+              <MenuItem value="3">Fixed</MenuItem>
+              <MenuItem value="4">Won't Fix</MenuItem>
+              <MenuItem value="5">Done</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl className={style.formControl}>
+            <InputLabel>Assigned To</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={assignedValue}
+              name="assigned_to"
+              onChange={handleAssignedChange}
+            >
+              <MenuItem value="Me">Me</MenuItem>
+             
+            </Select>
+          </FormControl>
+          <FormControl className={style.formControl}>
+            <InputLabel>Label</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={labelValue}
+              name="label"
+              onChange={handleLabelChange}
+            >
+              <MenuItem value="Me">Me</MenuItem>
+             
             </Select>
           </FormControl>
         </div>
         <div className={style.title}>
-          <Field name="title" component={renderTextField} label="Title" />
+          <Field name="title" component={renderTextField} label="Title" value="title" onChange={handleTitleChange}/>
         </div>
         <div className={style.description}>
           <Field
             name="description"
             label="Description"
             component={renderDescriptionField}
+            onChange={handleDescriptionChange}
           />
         </div>
         <div className={style.buttonContainer}>
