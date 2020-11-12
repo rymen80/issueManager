@@ -15,7 +15,7 @@ import issUseLogo from "../../images/issUse.png";
 import apiLogo from "../../images/swagger.png";
 import PersonIcon from "@material-ui/icons/PersonOutline";
 import { LoginPagesCopyright } from "../common/components/LoginPagesCopyright";
-import { Hidden } from "@material-ui/core";
+
 
 const TextFieldInput = ({ input, meta, label, ...custom }) => {
   console.log("FIELD COMPONENT PROPS", meta);
@@ -133,7 +133,7 @@ const AdminSignIn = (props) => {
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image}>
+      <Grid item xs={false}  md={7} className={classes.image}>
         <span className="tagline">
           <h1>
             "Issues"?! No Issues with issUse<sup>&copy;</sup>
@@ -156,7 +156,7 @@ const AdminSignIn = (props) => {
           <Button
             variant="outlined"
             color="inherit"
-            startIcon={<img src={apiLogo} height="22px" />}
+            startIcon={<img src={apiLogo} height="22px" alt="api logo"/>}
             onClick={() => {
               history.push("/api-docs/");
             }}
@@ -165,7 +165,7 @@ const AdminSignIn = (props) => {
           </Button>
         </div>
         <div className={classes.paper}>
-          <img src={issUseLogo} className={classes.avatar} />
+          <img src={issUseLogo} className={classes.avatar} alt="issuse logo"/>
           <Typography component="h1" variant="h5">
             <span style={{ color: "#ee3311" }}>Administrator</span> Sign in
           </Typography>
@@ -197,8 +197,7 @@ const AdminSignIn = (props) => {
               name="password"
               label="password"
               autoComplete="password"
-              type="password"
-              name="password"
+              type="password"              
               component={TextFieldInput}
             />
             <Button

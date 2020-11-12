@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -45,10 +44,10 @@ const useStyles = makeStyles({
 export default function AdminCards(props) {
   const classes = useStyles();
   const history = useHistory();
-  const adminState = useSelector((state)=>state.admin);
+  // const adminState = useSelector((state)=>state.admin);
   const adminPageState = useSelector((state)=>state.adminPage);
   const dispatch = useDispatch(adminPageState);
-  const bull = <span className={classes.bullet}>•</span>;
+  // const bull = <span className={classes.bullet}>•</span>;
   console.log(adminPageState.projects);
   const handleViewAllProjectClick = async ()=>{
 

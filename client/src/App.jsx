@@ -3,12 +3,8 @@ import './styles/App.css';
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
-  Redirect,
+  Switch,  
 } from "react-router-dom";
-import Navbar from "./pages/common/components/Navbar";
-import StatusCard from "../src/pages/common/components/StatusCard";
-import CreateIssue from "../src/pages/common/components/CreateIssue";
 import { WrappedSignIn } from "./pages/User";
 import { WrappedAdminSignIn, AdminPage } from "./pages/Admin";
 import {ProtectedRoute} from './ProtectedRoute'
