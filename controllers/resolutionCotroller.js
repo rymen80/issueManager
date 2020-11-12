@@ -23,6 +23,7 @@ async function getResolutionsByResolutionIdAPI (req,res) {
     console.log(req.query);
     try {
         let resolutionById = await fetchAllResolutionsByResolutionID(resolutionId);
+        res.json(resolutionById);
 
     } catch (e) {
         res.status(400).json(e);
