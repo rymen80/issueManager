@@ -9,9 +9,6 @@ const {
 } = require("../model/userOrm");
 
 async function getAllUsersAPI(req, res) {
-  if (!req.user.isadmin) {
-    return res.status(403).json("admin previlege is required");
-  }
   try {
     let users;
     if (isNaN(parseInt(req.query.projectid))) {
