@@ -12,12 +12,14 @@ const StyledButton = withStyles({
         padding: '0 30px',
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
         marginRight: '10px',
+        marginLeft: '10px',
         pointerEvents: 'none',
     },
     label: {
         textTransform: 'capitalize',
     },
 })(Button);
+
 
 export default function ClassesShorthand(props) {
     return (
@@ -26,3 +28,5 @@ export default function ClassesShorthand(props) {
         </StyledButton>
     )
 }
+
+
