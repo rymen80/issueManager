@@ -8,7 +8,7 @@ import Container from "@material-ui/core/Container";
 import {useHistory} from 'react-router-dom';
 import {useSelector,useDispatch} from 'react-redux';
 import axios from "axios";
-import { getAllProjects } from "./adminPageReducer";
+import { getAllProjects } from "../adminPageReducer";
 
 const useStyles = makeStyles({
   root: {
@@ -44,14 +44,14 @@ const useStyles = makeStyles({
 export default function AdminCards(props) {
   const classes = useStyles();
   const history = useHistory();
-  // const adminState = useSelector((state)=>state.admin);
+  const adminState = useSelector((state)=>state.admin);
   const adminPageState = useSelector((state)=>state.adminPage);
   const dispatch = useDispatch(adminPageState);
   // const bull = <span className={classes.bullet}>•</span>;
   console.log(adminPageState.projects);
   const handleViewAllProjectClick = async ()=>{
 
-    const res = await axios.get("/api/projects", {params:{userid:1}});
+    const res = await axios.get("/api/projects",{params:{userid:1}});
     // console.log(res.data);
     // console.log("OK I AM HERE");
     dispatch(getAllProjects(res.data));

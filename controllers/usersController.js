@@ -8,6 +8,19 @@ const {
   updateUserInDb,
 } = require("../model/userOrm");
 
+
+async function getUserByUserIdAPI(req,res){
+  const { userid } = req.params;
+  try {    
+      user = await fetchUserByIdFromDb(userid);
+      res.json(user);    
+  } catch (e) {
+    console.log(e);
+    res.status(400).json(e);
+  }
+
+}
+
 async function getAllUsersAPI(req, res) {
   try {
     let users;
@@ -84,6 +97,7 @@ async function deleteUserAPI(req, res) {
 }
 
 module.exports = {
+  getUserByUserIdAPI,
   getAllUsersAPI,
   insertUserAPI,
   updateUserAPI,

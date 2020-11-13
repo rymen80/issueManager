@@ -1,4 +1,5 @@
 const {
+  getUserByUserIdAPI,
   getAllUsersAPI,
   insertUserAPI,
   updateUserAPI,
@@ -169,6 +170,9 @@ router.route("/").get(getAllUsersAPI).post(insertUserAPI);
  *      403:
  *        description: admin previlege is required
  */
-router.route("/:userid").patch(updateUserAPI).delete(deleteUserAPI);
+router.route("/:userid")
+.get(getUserByUserIdAPI)
+.patch(updateUserAPI)
+.delete(deleteUserAPI);
 
 module.exports = router;

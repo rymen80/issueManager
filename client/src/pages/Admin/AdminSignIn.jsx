@@ -1,30 +1,37 @@
 import React from "react";
 import { reduxForm, Field } from "redux-form";
 import { useSelector } from "react-redux";
-import TextField from "@material-ui/core/TextField";
+import {
+  TextField,
+  CssBaseline,
+  Paper,
+  Box,
+  Grid,
+  Typography,
+} from "@material-ui/core";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
 import { setAdminToken, getUser } from "./adminReducer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Paper from "@material-ui/core/Paper";
-import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import PersonIcon from "@material-ui/icons/PersonOutline";
 import issUseLogo from "../../images/issUse.png";
 import apiLogo from "../../images/swagger.png";
-import PersonIcon from "@material-ui/icons/PersonOutline";
 import { LoginPagesCopyright } from "../common/components/LoginPagesCopyright";
 
-
+/**
+ * @description Wrapper for TextField.
+ * The function/component is called as redux 'FIELD' component *
+ */
 const TextFieldInput = ({ input, meta, label, ...custom }) => {
   console.log("FIELD COMPONENT PROPS", meta);
 
   return <TextField {...input} label={label} {...custom} />;
 };
 
-// *** Field Validations To Be defined here :TBD
-
+/**
+ * @description makeStyles hook is used for styling the AdminSignIn Component.
+ */
+//#region Style ****** STYLE START ******
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
@@ -57,11 +64,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "end",
     position: "absolute",
-    width: "100%",
     top: "1%",
     borderColor: "red",
     borderStyle: "1px solid red",
-    left: "60%",
   },
   avatar: {
     margin: theme.spacing(6),
@@ -69,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     width: "40%",
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%", 
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -78,7 +83,9 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
 }));
+//#endregion ****** STYLE END ******
 
+// *** AdminSignIn Component
 const AdminSignIn = (props) => {
   const classes = useStyles();
   const { handleSubmit, history } = props;
@@ -89,12 +96,17 @@ const AdminSignIn = (props) => {
     console.log(formValues);
 
     try {
-      // *** Since you are trying to login as admin. We remove the 'userauth' item from local storage
+      // *** Since user is trying to login as admin. 
+      // *** We remove the 'userauth' item from local storage
+
       localStorage.removeItem("userauth");
       const res = await axios.post("/auth/signin", formValues);
       console.log(res.data);
       if (res.data.isadmin) {
+        /** @summary on authentication success store the auth token in local storage         * 
+         */
         localStorage.setItem("adminauth", JSON.stringify(res.data));
+        /**dispatch the auth token to store */
         dispatch(
           setAdminToken({
             adminauth: res.data,
@@ -108,6 +120,7 @@ const AdminSignIn = (props) => {
             username: res.data.username,
           })
         );
+        // *** Once authenticated go to adminpage
         history.push("/admin/adminpage");
       } else {
         dispatch(
@@ -126,20 +139,27 @@ const AdminSignIn = (props) => {
           authorized: false,
         })
       );
+      // *** something's wrong: so remove the adminauth from localstorage as a security measure
       localStorage.removeItem("adminauth");
     }
   };
 
+  /**
+   * @summary Component JSX
+   */
   return (
+    // *** Grid Container - Contains 2 Grid Items
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={false}  md={7} className={classes.image}>
+      {/**Grid 1 - occupies half of viewport */}
+      <Grid item xs={false} md={7} className={classes.image}>
         <span className="tagline">
           <h1>
             "Issues"?! No Issues with issUse<sup>&copy;</sup>
           </h1>
         </span>
       </Grid>
+      {/**Grid 2 - occupies other half of viewport */}
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.buttonBar}>
           <Button
@@ -156,16 +176,15 @@ const AdminSignIn = (props) => {
           <Button
             variant="outlined"
             color="inherit"
-            startIcon={<img src={apiLogo} height="22px" alt="api logo"/>}
-            onClick={() => {
-              history.push("/api-docs/");
-            }}
+            href="/api-docs/"
+            target="_blank"
+            startIcon={<img src={apiLogo} height="22px" alt="api logo" />}
           >
             API DOCS
           </Button>
         </div>
         <div className={classes.paper}>
-          <img src={issUseLogo} className={classes.avatar} alt="issuse logo"/>
+          <img src={issUseLogo} className={classes.avatar} alt="issuse logo" />
           <Typography component="h1" variant="h5">
             <span style={{ color: "#ee3311" }}>Administrator</span> Sign in
           </Typography>
@@ -197,7 +216,7 @@ const AdminSignIn = (props) => {
               name="password"
               label="password"
               autoComplete="password"
-              type="password"              
+              type="password"
               component={TextFieldInput}
             />
             <Button
@@ -219,6 +238,7 @@ const AdminSignIn = (props) => {
   );
 };
 
+// *** AdminSignIn component is wrapped in reduxForm
 export const WrappedAdminSignIn = reduxForm({ form: "adminSignInForm" })(
   AdminSignIn
 );
