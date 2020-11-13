@@ -14,24 +14,37 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 let projectResult;
-
+let projectId;
+let usersFromProject;
 //axios requests
 
-axios.get("/api/projects").then((res) => {
-  //  let name = res.data.map(i => i.project_name);
-  //  let id = res.data.map(i => i.project_id);
-  //  projectName.push(name)
-  //  projectId.push(id)
+const projectRequest = axios.get("/api/projects").then((res) => {
   projectResult = res.data;
+}).catch( (e) => {
+  console.log(e);
+});;
+const tokenLocalStorage = JSON.parse(localStorage.getItem('userauth')).token;
+
+const usersInProject = axios.get(`/api/users?projectid=${project}`, {
+  headers: {
+    authorization: tokenLocalStorage,
+  },
+}).then((res) => {
+  usersFromProject = res.data;
+  console.log("USERS", res.data[0].id);
+}).catch((e) => {
+  console.log(e);
 });
 
-let projectId;
-let users;
-// axios.get(`/api/users?projectid=1`)
-// .then((res) => {
-//  users = res.data;
-//  console.log("USERS", users)
-// })
+const resolutionRequet = axios.get('/api/resolutions',{
+  headers: {
+    authorization: tokenLocalStorage,
+  },
+}).then((res) => {
+  console.log("RESOLUTION", res.data)
+}).catch((e) => {
+  console.log(e);
+});
 
 const validate = (values) => {
   const errors = {};
@@ -172,6 +185,8 @@ const CreateIssueForm = (props) => {
   const handleLabelChange = (event) => {
     setLabel(event.target.value);
   };
+  
+
   const handleClick = async (e) => {
     e.preventDefault();
     await axios.post(
@@ -179,7 +194,7 @@ const CreateIssueForm = (props) => {
       {
         summary: title, //done
         description: description, //done
-        assigned_to: 5,//hardcoded for now, can update once admin auth is removed from request
+        assigned_to: 5, //hardcoded for now, can update once admin auth is removed from request
         status: 1, //done
         priority: priority, //done
         project_id: project, //done
@@ -254,10 +269,12 @@ const CreateIssueForm = (props) => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={assignedValue}
-              name="assigned_to"
+              name="assigned"
               onChange={handleAssignedChange}
             >
-              <MenuItem value="Me">Me</MenuItem>
+             {usersFromProject.map((i) => (
+                <MenuItem value={i.id}>{i.username}</MenuItem>
+              ))}
             </Select>
           </FormControl>
           <FormControl className={style.formControl}>

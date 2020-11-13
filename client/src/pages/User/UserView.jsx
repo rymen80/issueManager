@@ -28,7 +28,6 @@ const useStyles = makeStyles({
 
 function UserView() {
   const visibility = useSelector((state) => {
-    console.log(state);
     return state.userPage.visibility;
   });
   const classes = useStyles();

@@ -74,7 +74,6 @@ export default function NavbarUser() {
   const handleSignOut = () => {
     localStorage.removeItem('userauth');
     history.push('/');
-    console.log("SIGN OUT")
   }
 
   return (

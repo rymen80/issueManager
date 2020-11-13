@@ -84,7 +84,7 @@ const SignIn = (props) => {
         setUserToken({userauth:res.data, invalidLogin: false})
         );
       dispatch(getUser({id:res.data.id,username:res.data.username}));
-      history.push("/users");
+      history.push("/users/userPage");
      
     } catch (e) {
       throw new Error(e);
@@ -113,6 +113,14 @@ const SignIn = (props) => {
           <img src={issUseLogo} className={classes.avatar}/>
           <Typography component="h1" variant="h5">
             <span style={{color:"#4049cc"}}>User</span> Sign in
+          </Typography>
+          <Typography component="div">
+            <span style={{ color: "#ff0134", fontSize: "6" }}>
+              {st.invalidLogin ? " Invalid Login" : ""}
+              {/* {st.authorized
+                ? ""
+                : " Wrong username and password"} */}
+            </span>
           </Typography>
           <form noValidate autoComplete="off" className={classes.form}>
             <Field
