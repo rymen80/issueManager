@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
+import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from "@material-ui/core/styles";
 import { setVisibility } from "../../../pages/User/UserPageReducer";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,8 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 let projectResult;
-let projectId;
-let usersFromProject;
+let resolutionValues = [];
+let usersFromProject = [];
 //axios requests
 
 const projectRequest = axios.get("/api/projects").then((res) => {
@@ -25,22 +26,12 @@ const projectRequest = axios.get("/api/projects").then((res) => {
 });;
 const tokenLocalStorage = JSON.parse(localStorage.getItem('userauth')).token;
 
-const usersInProject = axios.get(`/api/users?projectid=${project}`, {
-  headers: {
-    authorization: tokenLocalStorage,
-  },
-}).then((res) => {
-  usersFromProject = res.data;
-  console.log("USERS", res.data[0].id);
-}).catch((e) => {
-  console.log(e);
-});
-
 const resolutionRequet = axios.get('/api/resolutions',{
   headers: {
     authorization: tokenLocalStorage,
   },
 }).then((res) => {
+  resolutionValues = res.data;
   console.log("RESOLUTION", res.data)
 }).catch((e) => {
   console.log(e);
@@ -144,6 +135,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
   },
+  closeIcon: {
+    color: '#EE3311',
+    position: "absolute",
+    right: '2%',
+    top: '3%',
+    fontSize: '30px',
+  }
 }));
 
 const CreateIssueForm = (props) => {
@@ -157,10 +155,10 @@ const CreateIssueForm = (props) => {
   const [label, setLabel] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [assigned, setAssigned] = useState("");
 
-  let assignedValue;
-
-  projectId = project;
+  
+  
 
   const handleProjectChange = (event) => {
     setProject(event.target.value);
@@ -180,21 +178,35 @@ const CreateIssueForm = (props) => {
   };
 
   const handleAssignedChange = (event) => {
-    assignedValue = event.target.value;
+    setAssigned(event.target.value);
   };
   const handleLabelChange = (event) => {
     setLabel(event.target.value);
   };
+  useEffect(() =>{
+    console.log(project)
+      axios.get(`/api/users?projectid=${project}`, {
+      headers: {
+        authorization: tokenLocalStorage,
+      },
+    }).then((res) => {
+      usersFromProject = res.data;
+      console.log("USERS", res.data);
+    }).catch((e) => {
+      console.log(e);
+    });
+    
+  },[handleProjectChange])
   
 
   const handleClick = async (e) => {
     e.preventDefault();
     await axios.post(
-      "api/issues",
+      "/api/issues",
       {
         summary: title, //done
         description: description, //done
-        assigned_to: 5, //hardcoded for now, can update once admin auth is removed from request
+        assigned_to: assigned, //done 
         status: 1, //done
         priority: priority, //done
         project_id: project, //done
@@ -210,12 +222,16 @@ const CreateIssueForm = (props) => {
 
     dispatch(setVisibility());
   };
+  const handleClose = () => {
+    dispatch(setVisibility());
+  }
 
   return (
     <form className={style.root} onSubmit={handleSubmit}>
       <div className={style.formContents}>
         <div className={style.borderBottom}>
           <h1 className={style.header}>Create Issue</h1>
+          <CloseIcon className={style.closeIcon} onClick={handleClose}/>
         </div>
         <div className={style.dropdowns}>
           <FormControl className={style.formControl}>
@@ -256,11 +272,11 @@ const CreateIssueForm = (props) => {
               name="resolution"
               onChange={handleResolutionChange}
             >
-              <MenuItem value="1">Not A Defect</MenuItem>
-              <MenuItem value="2">In-Fix</MenuItem>
-              <MenuItem value="3">Fixed</MenuItem>
-              <MenuItem value="4">Won't Fix</MenuItem>
-              <MenuItem value="5">Done</MenuItem>
+              {console.log(resolutionValues[0].resolution_name)}
+               {resolutionValues.map((i) => (
+                <MenuItem value={i.resolution_id}>{i.resolution_name}</MenuItem>
+              ))}
+            
             </Select>
           </FormControl>
           <FormControl className={style.formControl}>
@@ -268,11 +284,11 @@ const CreateIssueForm = (props) => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={assignedValue}
+              value={assigned}
               name="assigned"
               onChange={handleAssignedChange}
             >
-             {usersFromProject.map((i) => (
+            {usersFromProject.map((i) => (
                 <MenuItem value={i.id}>{i.username}</MenuItem>
               ))}
             </Select>
