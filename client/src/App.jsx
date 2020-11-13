@@ -13,13 +13,14 @@ import UserPage from './pages/User/UserView'
 
 function App() {
   const st = useSelector((state) => state.admin);
+  const user = useSelector(state=>state.user)
   return (
     <Router>
       <Switch>
         <Route exact path="/" component={WrappedSignIn} />
         <Route exact path="/admin" component={WrappedAdminSignIn} />
         <ProtectedRoute path="/admin/adminpage" component={AdminPage} loggedIn={st.adminauth?true:false} redirectTo="/admin"/>   
-        <Route path="/users" component={UserPage} />      
+        <ProtectedRoute path="/users/userPage" component={UserPage} loggedIn={user.userauth?true:false} redirectTo="/users"/>      
 
       </Switch>
     </Router>
