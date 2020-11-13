@@ -34,9 +34,9 @@ const userSlice = createSlice({
       userauth: action.payload.userauth,
       invalidLogin: action.payload.invalidLogin,
     }),
-  }
+  },
 });
- 
-export const { getUsers, getUser,setUserToken } = userSlice.actions;
+
+export const { getUsers, getUser, setUserToken } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;
