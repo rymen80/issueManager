@@ -18,6 +18,7 @@ import ProjectSelectorNew from "./ProjectSelectorNew";
 import { setVisibility } from "../../../pages/User/UserPageReducer";
 import { useDispatch } from "react-redux";
 import issUseLogo from "../../../images/issUseLogo.png";
+import {userProfile} from './UserProfile'
 
 const useStyles = makeStyles((theme) => ({
   root: {

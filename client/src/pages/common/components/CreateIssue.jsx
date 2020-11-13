@@ -1,41 +1,63 @@
 import React, { useState, useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
 import { setVisibility } from "../../../pages/User/UserPageReducer";
-import { useDispatch, useSelector } from "react-redux";
-// import {projectResult } from './ProjectSelector'
-import axios from "axios";
 
+/**
+ * @description these variables hold information from axios requests, declared outside of
+ * component to be used universally
+ */
 let projectResult;
 let resolutionValues = [];
 let usersFromProject = [];
-//axios requests
 
-const projectRequest = axios.get("/api/projects").then((res) => {
-  projectResult = res.data;
-}).catch( (e) => {
-  console.log(e);
-});;
-const tokenLocalStorage = localStorage.getItem('userauth')?JSON.parse(localStorage.getItem('userauth')).token:null;
+/**
+ * @description grabs the auth token from local storage to be use for axios calls. This token
+ * gets set when user logs in
+ */
+const tokenLocalStorage = localStorage.getItem("userauth")
+  ? JSON.parse(localStorage.getItem("userauth")).token
+  : null;
 
-const resolutionRequet = axios.get('/api/resolutions',{
-  headers: {
-    authorization: tokenLocalStorage,
-  },
-}).then((res) => {
-  resolutionValues = res.data;
-  console.log("RESOLUTION", res.data)
-}).catch((e) => {
-  console.log(e);
-});
+/**
+ * @description Project list and Resolution list requests with axios
+ */
+
+const projectRequest = axios
+  .get("/api/projects")
+  .then((res) => {
+    projectResult = res.data;
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+
+const resolutionRequet = axios
+  .get("/api/resolutions", {
+    headers: {
+      authorization: tokenLocalStorage,
+    },
+  })
+  .then((res) => {
+    resolutionValues = res.data;
+    console.log("RESOLUTION", res.data);
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+
+/**
+ * @description Validate makes the form fields all required
+ */
 
 const validate = (values) => {
   const errors = {};
@@ -45,6 +67,9 @@ const validate = (values) => {
     "resolution",
     "title",
     "description",
+    "resolution",
+    "assigned",
+    "label",
   ];
   requiredFields.forEach((field) => {
     if (!values[field]) {
@@ -53,6 +78,10 @@ const validate = (values) => {
   });
   return errors;
 };
+
+/**
+ * @description Makes a text field to use for our Title on our form
+ */
 
 const renderTextField = ({
   label,
@@ -70,6 +99,11 @@ const renderTextField = ({
     {...custom}
   />
 );
+
+/**
+ * @description Makes a text field to use for our Description on our form
+ */
+
 const renderDescriptionField = ({
   label,
   input,
@@ -91,6 +125,12 @@ const renderDescriptionField = ({
     {...custom}
   />
 );
+
+/**
+ * @description Using makeStyles from material UI to style components in form
+ * We then assign to const style in our form component
+ * To use styles in form apply className to elements... ex. className={style.root}
+ */
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -136,19 +176,33 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
   closeIcon: {
-    color: '#EE3311',
+    color: "#EE3311",
     position: "absolute",
-    right: '2%',
-    top: '3%',
-    fontSize: '30px',
-  }
+    right: "2%",
+    top: "3%",
+    fontSize: "30px",
+    cursor: "pointer",
+  },
 }));
 
+/**
+ * @description Declaration of CreateIssueForm component, will be used to create our
+ * form and will export to be used on user page
+ */
+
 const CreateIssueForm = (props) => {
+  /**
+   * @description
+   * userauth: grabbing state of user authentication from our redux store
+   * props are used for help with submitting form and in use with our clear button on form
+   */
   const userauth = useSelector((state) => state.user.userauth.token);
   const dispatch = useDispatch();
-  const style = useStyles();
   const { handleSubmit, pristine, reset, submitting } = props;
+  const style = useStyles();
+  /**
+   * @description setting pieces of state that will be used in this form
+   */
   const [project, setProject] = useState("");
   const [priority, setPriority] = useState("");
   const [resolution, setResolution] = useState("");
@@ -157,9 +211,9 @@ const CreateIssueForm = (props) => {
   const [description, setDescription] = useState("");
   const [assigned, setAssigned] = useState("");
 
-  
-  
-
+  /**
+   * @description Handle change functions set our state when dropdowns have a selection
+   */
   const handleProjectChange = (event) => {
     setProject(event.target.value);
   };
@@ -183,35 +237,43 @@ const CreateIssueForm = (props) => {
   const handleLabelChange = (event) => {
     setLabel(event.target.value);
   };
-  useEffect(() =>{
-    console.log(project)
-      axios.get(`/api/users?projectid=${project}`, {
-      headers: {
-        authorization: tokenLocalStorage,
-      },
-    }).then((res) => {
-      usersFromProject = res.data;
-      console.log("USERS", res.data);
-    }).catch((e) => {
-      console.log(e);
-    });
-    
-  },[handleProjectChange])
-  
+  /**
+   * @description Axios request is placed in useEffect so that it can run every time user selects a project.
+   * Makes it so our "Assigned to" dropdown can updated with users for the selected project
+   */
+  useEffect(() => {
+    console.log(project);
+    axios
+      .get(`/api/users?projectid=${project}`, {
+        headers: {
+          authorization: tokenLocalStorage,
+        },
+      })
+      .then((res) => {
+        usersFromProject = res.data;
+        console.log("USERS", res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [handleProjectChange]);
 
+  /**
+   * @description Submit button is clicked, "handClick" is called and form data is sent to mySql database
+   */
   const handleClick = async (e) => {
     e.preventDefault();
     await axios.post(
       "/api/issues",
       {
-        summary: title, //done
-        description: description, //done
-        assigned_to: assigned, //done 
-        status: 1, //done
-        priority: priority, //done
-        project_id: project, //done
-        resolution_id: resolution, //hard coded for now since there is no route
-        label: label, //hard coded, no route
+        summary: title,
+        description: description,
+        assigned_to: assigned,
+        status: 1,
+        priority: priority,
+        project_id: project,
+        resolution_id: resolution,
+        label: label,
       },
       {
         headers: {
@@ -219,19 +281,26 @@ const CreateIssueForm = (props) => {
         },
       }
     );
-
+ /**
+   * @description dispatch(setVisibility()) this changes the state of visibility in our redux store
+   * When applied to elements allows create issue form to open and close
+   */
     dispatch(setVisibility());
   };
+  
   const handleClose = () => {
     dispatch(setVisibility());
-  }
+  };
 
   return (
+    /**
+     * @description Make of the form using Material UI components imported above
+     */
     <form className={style.root} onSubmit={handleSubmit}>
       <div className={style.formContents}>
         <div className={style.borderBottom}>
           <h1 className={style.header}>Create Issue</h1>
-          <CloseIcon className={style.closeIcon} onClick={handleClose}/>
+          <CloseIcon className={style.closeIcon} onClick={handleClose} />
         </div>
         <div className={style.dropdowns}>
           <FormControl className={style.formControl}>
@@ -273,10 +342,9 @@ const CreateIssueForm = (props) => {
               onChange={handleResolutionChange}
             >
               {console.log(resolutionValues[0].resolution_name)}
-               {resolutionValues.map((i) => (
+              {resolutionValues.map((i) => (
                 <MenuItem value={i.resolution_id}>{i.resolution_name}</MenuItem>
               ))}
-            
             </Select>
           </FormControl>
           <FormControl className={style.formControl}>
@@ -288,11 +356,12 @@ const CreateIssueForm = (props) => {
               name="assigned"
               onChange={handleAssignedChange}
             >
-            {usersFromProject.map((i) => (
+              {usersFromProject.map((i) => (
                 <MenuItem value={i.id}>{i.username}</MenuItem>
               ))}
             </Select>
           </FormControl>
+          {/* hard coded labels for now, no route made */}
           <FormControl className={style.formControl}>
             <InputLabel>Label</InputLabel>
             <Select

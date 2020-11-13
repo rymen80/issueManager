@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     width: "40%",
   },
   form: {
-    width: "100%", 
+    width: "100%",
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -96,14 +96,14 @@ const AdminSignIn = (props) => {
     console.log(formValues);
 
     try {
-      // *** Since user is trying to login as admin. 
+      // *** Since user is trying to login as admin.
       // *** We remove the 'userauth' item from local storage
 
       localStorage.removeItem("userauth");
       const res = await axios.post("/auth/signin", formValues);
       console.log(res.data);
       if (res.data.isadmin) {
-        /** @summary on authentication success store the auth token in local storage         * 
+        /** @summary on authentication success store the auth token in local storage         *
          */
         localStorage.setItem("adminauth", JSON.stringify(res.data));
         /**dispatch the auth token to store */
