@@ -1,7 +1,8 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import { setVisibility } from "../../../pages/User/UserPageReducer";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
@@ -10,7 +11,7 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
-import { setVisibility } from "../../../pages/User/UserPageReducer";
+
 
 /**
  * @description these variables hold information from axios requests, declared outside of
