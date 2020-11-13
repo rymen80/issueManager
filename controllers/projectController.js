@@ -12,7 +12,7 @@ async function getAllProjectsAPI(req, res) {
   let project;
   if(req.query.userid){
     const projects = await fetchAllProjectsForUserFromDb(req.query.userid);
-    res.json(projects);
+    return res.json(projects);
   }
   try {
     const projects = await fetchAllProjectsFromDb();
