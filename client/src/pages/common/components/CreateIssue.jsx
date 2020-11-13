@@ -24,7 +24,7 @@ const projectRequest = axios.get("/api/projects").then((res) => {
 }).catch( (e) => {
   console.log(e);
 });;
-const tokenLocalStorage = JSON.parse(localStorage.getItem('userauth')).token;
+const tokenLocalStorage = localStorage.getItem('userauth')?JSON.parse(localStorage.getItem('userauth')).token:null;
 
 const resolutionRequet = axios.get('/api/resolutions',{
   headers: {
