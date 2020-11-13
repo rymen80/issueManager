@@ -33,7 +33,7 @@ function UserView() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <NavbarUser></NavbarUser>
+      {/* <NavbarUser></NavbarUser> */}
 
       {visibility ? <CreateIssue/>: null}
       {/* <div className={classes.status}>
@@ -43,9 +43,9 @@ function UserView() {
       <div className={classes.issues}>
       <ViewIssues ></ViewIssues>
       </div>
-      <div className={classes.footer}>
+      {/* <div className={classes.footer}>
         <Footer />
-      </div>
+      </div> */}
     </div>
   );
 }
