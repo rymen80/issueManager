@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+/**
+ * @description Set our initial User state that we will use throghout the project
+ */
 const INITIAL_STATE = {
   users: [],
   userauth: localStorage.getItem("userauth")
@@ -12,7 +14,9 @@ const INITIAL_STATE = {
   },
   moreState: false,
 };
-
+/**
+ * @description Create UserSlice, this will hold all of our reducers and initialize our redux store
+ */
 const userSlice = createSlice({
   name: "user",
   initialState: INITIAL_STATE,
