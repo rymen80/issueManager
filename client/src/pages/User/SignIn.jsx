@@ -84,7 +84,7 @@ const SignIn = (props) => {
         setUserToken({userauth:res.data, invalidLogin: false})
         );
       dispatch(getUser({id:res.data.id,username:res.data.username}));
-      history.push("/users/userPage");
+      history.push("/userpage");
      
     } catch (e) {
       throw new Error(e);

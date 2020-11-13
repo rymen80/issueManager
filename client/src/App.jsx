@@ -20,7 +20,7 @@ function App() {
         <Route exact path="/" component={WrappedSignIn} />
         <Route exact path="/admin" component={WrappedAdminSignIn} />
         <ProtectedRoute path="/admin/adminpage" component={AdminPage} loggedIn={st.adminauth?true:false} redirectTo="/admin"/>   
-        <ProtectedRoute path="/users/userPage" component={UserPage} loggedIn={user.userauth?true:false} redirectTo="/users"/>      
+        <ProtectedRoute exact path="/userpage" component={UserPage} loggedIn={user.userauth?true:false} redirectTo="/"/>      
 
       </Switch>
     </Router>
