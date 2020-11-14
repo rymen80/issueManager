@@ -53,7 +53,7 @@ function UserView() {
       {visibility ? <CreateIssue /> : null}
   <div>You Selected : {JSON.stringify(project)}</div>
       <div className={classes.status}>
-        <StatusCard title="Total Issues:" />
+        <StatusCard title="Total Issues" />
         <StatusCard title="Open:" />
       </div>
       <div className={classes.issues}>
