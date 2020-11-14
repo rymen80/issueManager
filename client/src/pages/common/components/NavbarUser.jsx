@@ -58,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
     // right: "50%",
     marginLeft: "30px",
   },
+  drawer:{
+    top:"100px",
+  }
 }));
 
 export default function NavbarUser() {
@@ -109,6 +112,7 @@ export default function NavbarUser() {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
+            
           >
             <MenuIcon />
           </IconButton>
@@ -164,6 +168,10 @@ export default function NavbarUser() {
           )}
         </Toolbar>
       </AppBar>
+      {/* <Drawer anchor="left" open={true}>
+      <ListItemText >A</ListItemText>
+        </Drawer> */}
+      
     </div>
   );
 }
