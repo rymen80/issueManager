@@ -86,15 +86,53 @@ const SignIn = (props) => {
    * Fourth: send user through to our /userpage
    */
   const handleSignIn = async (formValues, dispatch) => {
+    console.log(formValues);
+
     try {
+      // *** Since user is trying to login as user.
+      // *** We remove the 'userauth' item from local storage
+
       localStorage.removeItem("userauth");
       const res = await axios.post("/auth/signin", formValues);
-      localStorage.setItem("userauth", JSON.stringify(res.data));
-      dispatch(setUserToken({ userauth: res.data, invalidLogin: false }));
-      dispatch(getUser({ id: res.data.id, username: res.data.username }));
-      history.push("/userpage");
+      console.log("USER DATA", res.data);
+      if (res.data.id) {
+        /** @summary on authentication success store the auth token in local storage         *
+         */
+        localStorage.setItem("userauth", JSON.stringify(res.data));
+        /**dispatch the auth token to store */
+        dispatch(
+          setUserToken({
+            userauth: res.data,
+            invalidLogin: false,
+          })
+        );
+        dispatch(
+          getUser({
+            id: res.data.id,
+            username: res.data.username,
+          })
+        );
+        // *** Once authenticated go to userpage
+        history.push("/userpage");
+      } else {
+        dispatch(
+          setUserToken({
+            userauth: res.data,
+            invalidLogin: false,
+       
+          })
+        );
+      }
     } catch (e) {
-      throw new Error(e);
+      dispatch(
+        setUserToken({
+          userauth: null,
+          invalidLogin: true,
+        
+        })
+      );
+      // *** something's wrong: so remove the userauth from localstorage as a security measure
+      localStorage.removeItem("userauth");
     }
   };
 
