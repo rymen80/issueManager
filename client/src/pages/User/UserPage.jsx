@@ -12,14 +12,14 @@ import CreateIssueForm from "../common/components/CreateIssue";
 import BasicTable from "../common/components/ViewIssues";
 
 const useStyles = makeStyles({
-  leftbar: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    borderRight: "1px solid #fd5429",
-    padding: "5px",
-    marginLeft: "2px",
-  },
+  // leftbar: {
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   justifyContent: "flex-start",
+  //   borderRight: "1px solid #fd5429",
+  //   padding: "5px",
+  //   marginLeft: "2px",
+  // },
   button: {
     margin: "6px",
   },
@@ -41,7 +41,7 @@ export const UserPage = (props) => {
     <Router>
       <NavbarUser />
       <Grid container>
-        <Grid item sm={2}>
+        {/* <Grid item sm={2}>
           <div style={{ height: "100%" }} className={classes.leftbar}>
             <Button variant="contained" color="primary" className={classes.button}>
               All Issues <ArrowIcon />
@@ -56,8 +56,8 @@ export const UserPage = (props) => {
               Board <ArrowIcon />
             </Button>
           </div>
-        </Grid>
-        <Grid item sm={10}>
+        </Grid> */}
+        <Grid item sm={12}>
           <Switch>
             <Route exact path="/userpage" component={StatusCardsView} />
             <Route
