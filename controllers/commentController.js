@@ -1,13 +1,10 @@
 const {
   fetchAllComments,
   fetchCommentId,
-  fetchCommentText,
-  fetchCommentIssue,
   fetchCommentUser,
-  fetchDateTime,
 } = require("../model/commentOrm")
 
-const getAllComments = async (req, res) => {
+const getAllComments = async (_req, res) => {
   try {
     const allComments = await fetchAllComments()
     // console.log('these are all Comments', allComments);
@@ -18,8 +15,9 @@ const getAllComments = async (req, res) => {
 };
 
 const getAllCommentId = async (req, res) => {
+  const commentid = req.params
   try {
-    const commentsIds = await fetchCommentId()
+    const commentsIds = await fetchCommentId(commentid)
     // console.log(commentsIds);
     console.log(res.json(commentsIds));
   } catch (e) {
@@ -27,38 +25,11 @@ const getAllCommentId = async (req, res) => {
   }
 };
 
-const getAllCommentText = async (req, res) => {
-  try {
-    const commentText = await fetchCommentText();
-    console.log(commentText);
-    res.json(commentText)
-  } catch (e) {
-    throw new Error(e)
-  }
-};
-
-const getCommentIssue = async (req, res) => {
-  try {
-    const commentIssue = await fetchCommentIssue();
-    res.json(commentIssue)
-  } catch (e) {
-    throw new Error(e)
-  }
-};
-
 const getCommentUser = async (req, res) => {
+  const commentUserId = req.params;
   try {
-    const commentUser = await fetchCommentUser();
+    const commentUser = await fetchCommentUser(commentUserId);
     res.json(commentUser)
-  } catch (e) {
-    throw new Error(e)
-  }
-};
-
-const getDateTime = async (req, res) => {
-  try {
-    const dateAndTime = await fetchDateTime();
-    res.json(dateAndTime)
   } catch (e) {
     throw new Error(e)
   }
@@ -67,8 +38,5 @@ const getDateTime = async (req, res) => {
 module.exports = {
   getAllComments,
   getAllCommentId,
-  getAllCommentText,
-  getCommentIssue,
   getCommentUser,
-  getDateTime,
 }

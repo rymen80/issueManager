@@ -19,14 +19,14 @@ import {useHistory,} from 'react-router-dom';
 
 
 const useStyles = makeStyles({
-  leftbar: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    borderRight: "1px solid #fd5429",
-    padding: "5px",
-    marginLeft: "2px",
-  },
+  // leftbar: {
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   justifyContent: "flex-start",
+  //   borderRight: "1px solid #fd5429",
+  //   padding: "5px",
+  //   marginLeft: "2px",
+  // },
   button: {
     margin: "6px",
   },
@@ -74,7 +74,7 @@ export const UserPage = (props) => {
           </div>
         </Grid> */}
         <SidebarNav/>
-        <Grid item sm={10}>
+        <Grid item sm={12}>
           <Switch>
             <Route exact path="/userpage" component={StatusCardsView} />
             <Route
