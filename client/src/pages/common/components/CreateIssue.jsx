@@ -140,7 +140,7 @@ const useStyles = makeStyles((theme) => ({
     width: "75%",
     margin: "0 auto",
     boxShadow: " 3px 3px 5px 6px #ccc",
-    position: "absolute",
+    // position: "absolute",
     left: "10%",
     background: "white",
   },
@@ -166,7 +166,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     margin: "20px 0",
-    background: "#638FBC",
+    background: "#3f51b5",
     color: "white",
   },
   description: {

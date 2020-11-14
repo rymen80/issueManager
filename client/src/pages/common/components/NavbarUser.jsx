@@ -96,6 +96,7 @@ export default function NavbarUser() {
 
   const handleClick = () => {
     dispatch(setVisibility());
+    history.push("/userpage/create");
   };
 
   const handleSignOut = () => {
