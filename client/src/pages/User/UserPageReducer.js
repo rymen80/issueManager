@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   users: [],
   issues: [],
   visibility: false,
+  selectedProject:{},
 };
 /**
  * @description Create UserPageSlice, this will hold all of our reducers and initialize our redux store
@@ -23,9 +24,15 @@ const userPageSlice = createSlice({
         visibility: !state.visibility,
       };
     },
+    setSelectedProject:(state,action) =>{
+      return{
+        ...state,
+        selectedProject:action.payload
+      }
+    }
   },
 });
 
-export const { setVisibility } = userPageSlice.actions;
+export const { setVisibility,setSelectedProject } = userPageSlice.actions;
 
 export const userPageReducer = userPageSlice.reducer;
