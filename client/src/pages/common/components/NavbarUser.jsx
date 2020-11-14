@@ -100,8 +100,8 @@ export default function NavbarUser() {
   };
 
   const handleSignOut = () => {
-    localStorage.removeItem("userauth");
     history.push("/");
+    localStorage.removeItem("userauth");
   };
 
   return (
