@@ -29,10 +29,16 @@ const userPageSlice = createSlice({
         ...state,
         selectedProject:action.payload
       }
-    }
+    },
+    setUserProjects:(state,action) =>{
+      return{
+        ...state,
+        projects:action.payload
+      }
+    },
   },
 });
 
-export const { setVisibility,setSelectedProject } = userPageSlice.actions;
+export const { setVisibility,setSelectedProject,setUserProjects } = userPageSlice.actions;
 
 export const userPageReducer = userPageSlice.reducer;
