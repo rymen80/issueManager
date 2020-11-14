@@ -12,8 +12,8 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import { AccountCircle } from "@material-ui/icons";
-import ReportIssueButton from "./ReportIssueButton";
-import ProjectSelector from "./ProjectSelector";
+// import ReportIssueButton from "./ReportIssueButton";
+// import ProjectSelector from "./ProjectSelector";
 import ProjectSelectorNew from "./ProjectSelectorNew";
 import { setVisibility } from "../../../pages/User/UserPageReducer";
 import { useDispatch } from "react-redux";
@@ -71,9 +71,9 @@ export default function NavbarUser() {
   const history = useHistory();
   const location = useLocation();
 
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
+  // const handleChange = (event) => {
+  //   setAuth(event.target.checked);
+  // };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);

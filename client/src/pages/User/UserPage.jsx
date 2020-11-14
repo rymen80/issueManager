@@ -17,6 +17,7 @@ export const UserPage = (props) => {
         <Route exact path="/userpage" component={UserView} />
         <Route path="/userpage/profile" component={components.UserProfile} />
       </Switch>
+      <Footer />
     </>
   );
 };

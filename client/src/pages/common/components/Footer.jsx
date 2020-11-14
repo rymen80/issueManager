@@ -27,7 +27,7 @@ export default function StickyFooter(props) {
     <div>
       <footer className={classes.footer}>
         <Container>
-          <Typography variant="body2" color="white">
+          <Typography variant="body2">
             {"Copyright © "}
             <Link
               color="inherit"
