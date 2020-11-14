@@ -189,11 +189,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**
- * @description Declaration of CreateIssueForm component, will be used to create our
+ * @description Declaration of UpdateIssueForm component, will be used to create our
  * form and will export to be used on user page
  */
 
-const CreateIssueForm = (props) => {
+const UpdateIssueForm = (props) => {
   /**
    * @description
    * userauth: grabbing state of user authentication from our redux store
@@ -302,7 +302,7 @@ const CreateIssueForm = (props) => {
     <form className={style.root} onSubmit={handleSubmit}>
       <div className={style.formContents}>
         <div className={style.headerContainer}>
-          <h1 className={style.header}>Create Issue</h1>
+          <h1 className={style.header}>Update Issue</h1>
           <CloseIcon className={style.closeIcon} onClick={handleClose} />
         </div>
         <div className={style.dropdowns}>
@@ -424,4 +424,4 @@ const CreateIssueForm = (props) => {
 export default reduxForm({
   form: "MaterialUiForm", // a unique identifier for this form
   validate,
-})(CreateIssueForm);
+})(UpdatedIssueForm);
