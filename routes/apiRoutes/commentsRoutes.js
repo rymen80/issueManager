@@ -1,10 +1,7 @@
 const {
   getAllComments,
   getAllCommentId,
-  getAllCommentText,
-  getCommentIssue,
   getCommentUser,
-  getDateTime,
 } = require("../../controllers/commentController");
 const authMiddleWare = require("../../middlewares/authorizationMiddleware");
 const router = require("express").Router();
@@ -13,7 +10,7 @@ router.use(authMiddleWare);
 
 /**
  * @swagger
- * /api/issues:
+ * /api/comment:
  *  get:
  *    description: Gets All Issues. **REQUIRES ADMIN PREVILEGE**
  *    summary: Get All Issues. **REQUIRES ADMIN PREVILEGE**
@@ -107,7 +104,7 @@ router.use(authMiddleWare);
  *        description: Status Ok
  */
 router
-  .route("/")
+  .route("/:commentId")
   .get(getAllComments);
 
 module.exports = router;

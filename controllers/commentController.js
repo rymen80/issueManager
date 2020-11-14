@@ -5,6 +5,14 @@ const {
 } = require("../model/commentOrm")
 
 const getAllComments = async (_req, res) => {
+  const commentid = req.params;
+  const commentUserId = req.params;
+  if (commentid) {
+    return getCommentId(commentid)
+  } else if (commentUserId) {
+    return getCommentUser(commentUserId)
+  }
+  const 
   try {
     const allComments = await fetchAllComments()
     // console.log('these are all Comments', allComments);
@@ -14,7 +22,7 @@ const getAllComments = async (_req, res) => {
   }
 };
 
-const getAllCommentId = async (req, res) => {
+const getCommentId = async (req, res) => {
   const commentid = req.params
   try {
     const commentsIds = await fetchCommentId(commentid)
@@ -37,6 +45,6 @@ const getCommentUser = async (req, res) => {
 
 module.exports = {
   getAllComments,
-  getAllCommentId,
+  getCommentId,
   getCommentUser,
 }
