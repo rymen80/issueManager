@@ -1,4 +1,5 @@
 import React,{useEffect} from "react";
+import {useDispatch, useSelector} from 'react-redux';
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -6,6 +7,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import axios from 'axios';
+import {setSelectedProject} from '../../User/UserPageReducer';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -32,13 +34,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProjecSelectorNew() {
   const [projects, setProjects] = React.useState([]);
-  const [state, setState] = React.useState([]);
+  const [project, setProject] = React.useState({});
+  const userPageState = useSelector((state)=>state.userPage);
+  const dispatch = useDispatch();
   useEffect( () => {
     const getData= async ()=>{
       try{
         const fetchedProjects = await axios.get('/api/projects');
-        const projectNames=fetchedProjects.data.map(fp=>fp.project_name);
-        setProjects(projectNames);
+        // const projectNames=fetchedProjects.data.map(fp=>fp.project_name);
+        setProjects(fetchedProjects.data);
+        setProject(fetchedProjects.data[0]);
+        dispatch(setSelectedProject(fetchedProjects.data[0]));
       }
       catch(e){
         throw new Error(e);
@@ -51,11 +57,16 @@ export default function ProjecSelectorNew() {
   const classes = useStyles();
 
   const handleChange = (event) => {
-    const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
+    const pid = event.target.value;
+    const proj = projects.filter(p=>p.project_id===+pid);
+    setProject(proj);
+    dispatch(setSelectedProject(proj));
+    //   {
+    //   ...project,
+    //   [name]: event.target.value,
+    // }
+    
+    // );
   };
 
   return (
@@ -63,7 +74,7 @@ export default function ProjecSelectorNew() {
       <FormControl className={classes.formControl}>
         <InputLabel className={classes.inputLabel} htmlFor="age-native-helper">Project</InputLabel>
         <NativeSelect
-          value={state.age}
+          value={project.project_name}
           onChange={handleChange}   
           className={classes.selectStyle}     
           // inputProps={{
@@ -72,7 +83,7 @@ export default function ProjecSelectorNew() {
           // }}
         >
           {/* <option aria-label="None" value="" /> */}
-  {projects.map((p,index) => <option key={index} value={p}>{p}</option>)}
+  {projects.map((p) => <option key={p.project_id} value={p.project_id}>{p.project_name}</option>)}
           {/* <option value={project[0].project_name} selected></option>
           <option value={10}>Ten</option>
           <option value={20}>Twenty</option>

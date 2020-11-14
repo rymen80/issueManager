@@ -6,6 +6,9 @@ import ViewIssues from "../common/components/ViewIssues";
 import NavbarUser from "../common/components/NavbarUser";
 import Footer from "../common/components/Footer";
 import { makeStyles } from "@material-ui/core/styles";
+import StatusCard from '../common/components/StatusCard';
+import { useEffect } from "react";
+import ProjecSelectorNew from "../common/components/ProjectSelectorNew";
 
 /**
  * @description using materialUI makeStyles hook to adjust styling on page
@@ -35,6 +38,10 @@ function UserView() {
    * @description getting state for visibility from redux store
    */
   const visibility = useSelector((state) => state.userPage.visibility);
+  
+  let project = useSelector((state) => state.userPage.selectedProject);
+  
+  useEffect(()=>{console.log("PROJECT",project)},[project]);
   /**
    * @description assigning styles from above to a variable for use in elements
    */
@@ -44,12 +51,13 @@ function UserView() {
       {/* <NavbarUser></NavbarUser> */}
 
       {visibility ? <CreateIssue /> : null}
-      {/* <div className={classes.status}>
+  <div>You Selected : {JSON.stringify(project)}</div>
+      <div className={classes.status}>
         <StatusCard title="Total Issues:" />
         <StatusCard title="Open:" />
-      </div> */}
+      </div>
       <div className={classes.issues}>
-        <ViewIssues></ViewIssues>
+        {/* <ViewIssues></ViewIssues> */}
       </div>
       {/* <div className={classes.footer}>
         <Footer />
