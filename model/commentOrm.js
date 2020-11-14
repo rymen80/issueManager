@@ -1,10 +1,7 @@
 const {
   findAllCommentQuery,
   findAllCommentIdQuery,
-  findAllCommentTextQuery,
-  findAllCommentIssueIdQuery,
   findAllCommentUserIdQuery,
-  findAllCommentDateTimeQuery,
 } = require('./commentQueries');
 const connection = require("../config/connection");
 
@@ -19,9 +16,9 @@ const fetchAllComments = async () => {
   }
 };
 
-const fetchCommentId = async () => {
+const fetchCommentId = async (id) => {
   try {
-    const [commentId] = await connection.query(findAllCommentIdQuery)
+    const [commentId] = await connection.query(findAllCommentIdQuery, id)
     // console.log(commentId);
     return commentId
   } catch (e) {
@@ -29,41 +26,11 @@ const fetchCommentId = async () => {
   }
 };
 
-const fetchCommentText = async () => {
+const fetchCommentUser = async (id) => {
   try {
-    const [commentText] = await connection.query(findAllCommentTextQuery)
-    // console.log(commentText);
-    return commentText;
-  } catch (e) {
-    throw new Error(e)
-  }
-};
-
-const fetchCommentIssue = async () => {
-  try {
-    const [commentIssue] = await connection.query(findAllCommentIssueIdQuery)
-    // console.log(commentIssue);
-    return commentIssue;
-  } catch (e) {
-    throw new Error(e)
-  }
-};
-
-const fetchCommentUser = async () => {
-  try {
-    const [commentUser] = await connection.query(findAllCommentUserIdQuery);
+    const [commentUser] = await connection.query(findAllCommentUserIdQuery, id);
     // console.log(commentUser);
     return commentUser;
-  } catch (e) {
-    throw new Error(e)
-  }
-}
-
-const fetchDateTime = async () => {
-  try {
-    const [dateTime] = await connection.query(findAllCommentDateTimeQuery);
-    // console.log(dateTime);
-    return dateTime;
   } catch (e) {
     throw new Error(e)
   }
@@ -72,8 +39,5 @@ const fetchDateTime = async () => {
 module.exports = {
   fetchAllComments,
   fetchCommentId,
-  fetchCommentText,
-  fetchCommentIssue,
   fetchCommentUser,
-  fetchDateTime,
 }
