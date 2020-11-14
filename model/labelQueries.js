@@ -1,9 +1,8 @@
 const findAllLabelQuery = 'SELECT * FROM label;';
-const findLabelIdQuery = 'SELECT label_id FROM label;';
-const findLabelNameQuery = 'SELECT label_name FROM label;';
+
+const findLabelIdQuery = 'SELECT * FROM label where id = ?;';
 
 module.exports = {
   findAllLabelQuery,
   findLabelIdQuery,
-  findLabelNameQuery,
 }
