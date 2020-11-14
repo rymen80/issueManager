@@ -4,14 +4,16 @@ import { Typography, makeStyles, Container, Link } from "@material-ui/core";
 // *** Styles for the footer
 const useStyles = makeStyles((theme) => ({
   footer: {
-    padding: "10px",
+    position: "absolute",    
+    padding: "8px",
     textAlign: "center",
-    display: "flex",
-    justifyContent: "center",
+    width:"98%",
     marginTop: "auto",
-    bottom: "0",
+    marginLeft:"auto",
+    marginRight:"auto",
+    bottom:"0px",    
     backgroundColor: "#3f51b5",
-    height: "30px",
+    height: "15px",
     color: "white",
   },
 }));
