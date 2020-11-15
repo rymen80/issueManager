@@ -36,9 +36,15 @@ const userPageSlice = createSlice({
         projects:action.payload
       }
     },
+    setIssues:(state,action) =>{
+      return{
+        ...state,
+        issues: action.payload
+      }
+    },
   },
 });
 
-export const { setVisibility,setSelectedProject,setUserProjects } = userPageSlice.actions;
+export const { setVisibility,setSelectedProject,setUserProjects,setIssues } = userPageSlice.actions;
 
 export const userPageReducer = userPageSlice.reducer;

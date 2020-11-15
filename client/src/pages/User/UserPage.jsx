@@ -9,7 +9,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import ArrowIcon from "@material-ui/icons/ArrowForwardIosRounded";
 import { StatusCardsView } from "./Views/StatusCardsView";
 import CreateIssueForm from "../common/components/CreateIssue";
-import BasicTable from "../common/components/ViewIssues";
+import SidebarNav from './SidebarNav';
+// import BasicTable from "../common/components/ViewIssues";
+import IssueDetailView from './Views/IssueDetailView';
+import {useHistory,} from 'react-router-dom';
+import ViewAllProjects from '../Admin/views/ViewAllProjects';
+
+
+
+
 
 const useStyles = makeStyles({
   // leftbar: {
@@ -30,34 +38,23 @@ const useStyles = makeStyles({
   },  
 });
 
+
+
 /**
  *
  * @description UserPage component declaration, set up routes to our render UserView component
  * or our UserProfile, depending on route selected
  */
 export const UserPage = (props) => {
+  
   const classes = useStyles();
+ 
+
   return (
     <Router>
       <NavbarUser />
       <Grid container>
-        {/* <Grid item sm={2}>
-          <div style={{ height: "100%" }} className={classes.leftbar}>
-            <Button variant="contained" color="primary" className={classes.button}>
-              All Issues <ArrowIcon />
-            </Button>
-            <Button variant="contained" color="primary" className={classes.button}>
-              Assigned to me <ArrowIcon />
-            </Button>
-            <Button variant="contained" color="primary" className={classes.button}>
-              Reported By me <ArrowIcon />
-            </Button>
-            <Button variant="contained" color="primary" className={classes.button}>
-              Board <ArrowIcon />
-            </Button>
-          </div>
-        </Grid> */}
-        <Grid item sm={12}>
+      <Grid item sm={12}>
           <Switch>
             <Route exact path="/userpage" component={StatusCardsView} />
             <Route
@@ -65,6 +62,7 @@ export const UserPage = (props) => {
               component={components.UserProfile}
             />
             <Route path="/userpage/create" component={CreateIssueForm} />
+            <Route path="/userpage/allissues" component={IssueDetailView} />
           </Switch>
         </Grid>
       </Grid>
