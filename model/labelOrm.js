@@ -1,10 +1,8 @@
 const {
   findAllLabelQuery,
   findLabelIdQuery,
-  findLabelNameQuery,
 } = require('./labelQueries');
 const connection = require("../config/connection");
-
 
 const fetchAllLabel = async () => {
   try {
@@ -16,21 +14,11 @@ const fetchAllLabel = async () => {
   }
 };
 
-const fetchLabelId = async () => {
+const fetchLabelId = async (id) => {
   try {
-    const [labelId] = await connection.query(findLabelIdQuery);
+    const labelId = await connection.query(findLabelIdQuery, id);
     console.log(labelId);
     return labelId;
-  } catch (e) {
-    throw new Error(e)
-  }
-};
-
-const fetchLabelName = async () => {
-  try {
-    const [labelName] = await connection.query(findLabelNameQuery);
-    console.log(labelName);
-    return labelName;
   } catch (e) {
     throw new Error(e)
   }
@@ -39,5 +27,4 @@ const fetchLabelName = async () => {
 module.exports = {
   fetchAllLabel,
   fetchLabelId,
-  fetchLabelName,
 }

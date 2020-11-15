@@ -1,7 +1,5 @@
 const {
   getAllLabel,
-  getLabelId,
-  getLabelName,
 } = require("../../controllers/labelController");
 const authMiddleWare = require("../../middlewares/authorizationMiddleware");
 const router = require("express").Router();
@@ -10,7 +8,7 @@ router.use(authMiddleWare);
 
 /**
  * @swagger
- * /api/issues:
+ * /api/label:
  *  get:
  *    description: Gets All Issues. **REQUIRES ADMIN PREVILEGE**
  *    summary: Get All Issues. **REQUIRES ADMIN PREVILEGE**
@@ -104,7 +102,7 @@ router.use(authMiddleWare);
  *        description: Status Ok
  */
 router
-  .route("/")
+  .route("/:labelId")
   .get(getAllLabel);
 
 module.exports = router;
