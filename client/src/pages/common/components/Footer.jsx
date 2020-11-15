@@ -3,12 +3,11 @@ import { Typography, makeStyles, Container, Link } from "@material-ui/core";
 
 // *** Styles for the footer
 const useStyles = makeStyles((theme) => ({
-  footer: {
-    position: "absolute",    
+  footer: {     
     padding: "8px",
     textAlign: "center",
     width:"98%",
-    marginTop: "auto",
+    marginTop: "30px",
     marginLeft:"auto",
     marginRight: "auto",
     marginBottom: "auto",
