@@ -9,9 +9,6 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     margin: theme.spacing(3, 0, 2),
-    background: "#4049cc",
-    color: "white",
-    position: "absolute",
     left: "45%",
   },
   span: {
@@ -20,6 +17,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * @summary  Simple User Profile Display to show the user details
+ * @description Currently the user cannot update his own password. This is upcoming feature.
+ */
 export function UserProfile(props) {
   const classes = useStyles();
   const [user, setUser] = useState({});
@@ -62,10 +63,10 @@ export function UserProfile(props) {
           <span>{user.isadmin ? "Yes" : "No"}</span>
         </div>
         <Button
-          variant="container"
-          color="inherit"
+          variant="contained"
           href={props.location.state.backLocation}
           className={classes.button}
+          color="primary"
         >
           Back
         </Button>
