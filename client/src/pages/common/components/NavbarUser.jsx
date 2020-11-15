@@ -172,7 +172,9 @@ export default function NavbarUser() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+ const handleAllIssuesClick = () => {
+   history.push('/userpage/allissues')
+ }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -260,7 +262,7 @@ export default function NavbarUser() {
         </div>
         <Divider />
         <List>
-          <Button  color="primary" className={classes.button}>
+          <Button  color="primary" onClick={handleAllIssuesClick} className={classes.button}>
               All Issues <ArrowIcon />
             </Button>
             <Button  color="primary" className={classes.button}>

@@ -13,6 +13,7 @@ import SidebarNav from './SidebarNav';
 // import BasicTable from "../common/components/ViewIssues";
 import IssueDetailView from './Views/IssueDetailView';
 import {useHistory,} from 'react-router-dom';
+import ViewAllProjects from '../Admin/views/ViewAllProjects';
 
 
 
@@ -45,36 +46,15 @@ const useStyles = makeStyles({
  * or our UserProfile, depending on route selected
  */
 export const UserPage = (props) => {
-  const history = useHistory();
+  
   const classes = useStyles();
  
 
-  const handleAllIssuesView = () => {
-    console.log('HELLO')
-    history.push("/userpage/profile")
-  }
   return (
     <Router>
       <NavbarUser />
       <Grid container>
-        {/* <Grid item sm={2}>
-          <div style={{ height: "100%" }} className={classes.leftbar}>
-            <Button variant="contained" onClick={handleAllIssuesView} color="primary" className={classes.button}>
-              All Issues <ArrowIcon />
-            </Button>
-            <Button variant="contained" color="primary" className={classes.button}>
-              Assigned to me <ArrowIcon />
-            </Button>
-            <Button variant="contained" color="primary" className={classes.button}>
-              Reported By me <ArrowIcon />
-            </Button>
-            <Button variant="contained" color="primary" className={classes.button}>
-              Board <ArrowIcon />
-            </Button>
-          </div>
-        </Grid> */}
-        <SidebarNav/>
-        <Grid item sm={12}>
+      <Grid item sm={12}>
           <Switch>
             <Route exact path="/userpage" component={StatusCardsView} />
             <Route
