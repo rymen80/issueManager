@@ -6,36 +6,47 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import axios from "axios";
-import {useSelector} from 'react-redux';
-import {getAllProjects} from '../adminPageReducer';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
 }));
 
-const TextFieldInput = ({ input,props, meta, label, ...custom }) => {
+const TextFieldInput = ({ input, props, meta, label, ...custom }) => {
   console.log("FIELD COMPONENT PROPS", meta);
 
-  return <TextField {...input} label={label} {...custom} {...props}/>;
+  return <TextField {...input} label={label} {...custom} {...props} />;
 };
 
-function CreateProject(props) {
+
+/**
+ * 
+ * @summary CreateUser Form
+ * @description Password encryption is handled at backend/database layer
+ */
+function CreateUser(props) {
   const classes = useStyles();
   const { handleSubmit, history } = props;
-  const st = useSelector(state=>state.admin);
-
-  // const adminPageState = useSelector(state=>state.adminPage);
 
   const handleFormSubmit = async (formValues, dispatch) => {
-    // console.log(formValues);
-    formValues.created_by=st.adminauth.id;
-    // console.log(st.adminauth.id);
+    const auth = JSON.parse(localStorage.getItem("adminauth"));
+
     try {
-      const res = await axios.post("/api/projects", formValues);
-      history.push("/admin/adminpage/projects");
-      dispatch(getAllProjects());
-    }catch(e){
-      throw new Error(e)
+      const res = await axios.post(
+        "/api/users",
+        {
+          username: formValues.username,
+          password: formValues.password,
+          firstname: formValues.firstname || "",
+          lastname: formValues.lastname || "",
+          phone: formValues.phone || "",
+        },
+        {
+          headers: { authorization: auth.token },
+        }
+      );
+      history.push("/admin/adminpage");
+    } catch (e) {
+      throw new Error(e);
     }
   };
 
@@ -43,16 +54,20 @@ function CreateProject(props) {
     <Container>
       <Grid container>
         <Grid item xs={12} sm={8} md={5} elevation={6} square>
-          <form autoComplete="off" className={classes.form} onSubmit={handleSubmit(handleFormSubmit)}>
+          <form
+            autoComplete="off"
+            className={classes.form}
+            onSubmit={handleSubmit(handleFormSubmit)}
+          >
             <Field
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="projectname"
-              name="name"
-              label="Project Name"
-              autoComplete="name"
+              id="username"
+              name="username"
+              label="User Name"
+              autoComplete="username"
               component={TextFieldInput}
             />
             <Field
@@ -60,32 +75,50 @@ function CreateProject(props) {
               margin="normal"
               required
               fullWidth
-              id="projectkey"
-              name="key"
-              label="Key"
-              autoComplete="key"
+              id="password"
+              name="password"
+              label="Password"
+              type="password"
               component={TextFieldInput}
             />
             <Field
               variant="outlined"
               margin="normal"
-              required
               fullWidth
-              id="description"
-              name="description"
-              label="description"
-              autoComplete="project description"
+              id="firstname"
+              name="firstname"
+              label="First Name"
+              autoComplete="firstname"
               component={TextFieldInput}
-              multiLine={true}
-            />            
+            />
+            <Field
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="lastname"
+              name="lastname"
+              label="Last Name"
+              autoComplete="lastname"
+              component={TextFieldInput}
+            />
+            <Field
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="phone"
+              name="phone"
+              label="Phone"
+              autoComplete="phone"
+              component={TextFieldInput}
+            />
             <Button
-              // onClick={handleSubmit(handleFormSubmit)}
+              onClick={handleSubmit(handleFormSubmit)}
               type="submit"
               fullWidth
               variant="contained"
-              className={classes.submit}
+              color="primary"
             >
-              Create Project
+              Create User
             </Button>
           </form>
         </Grid>
@@ -94,6 +127,6 @@ function CreateProject(props) {
   );
 }
 
-export const WrappedCreateProject = reduxForm({ form: "createProjectForm" })(
-  CreateProject
+export const WrappedCreateUser = reduxForm({ form: "createUserForm" })(
+  CreateUser
 );
