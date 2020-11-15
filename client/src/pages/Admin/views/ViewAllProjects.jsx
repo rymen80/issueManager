@@ -3,27 +3,26 @@ import { DataGrid } from "@material-ui/data-grid";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
-import { reduxForm, Field,reset } from "redux-form";
+import { reduxForm, Field, reset } from "redux-form";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import {useSelector,useDispatch,connect} from 'react-redux';
-import {setSelectedProject} from '../adminPageReducer';
-import { border,borderColor } from '@material-ui/system'
+import { useSelector, useDispatch, connect } from "react-redux";
+import { setSelectedProject } from "../adminPageReducer";
+import { border, borderColor } from "@material-ui/system";
 
 const useStyles = makeStyles((theme) => ({
   submit: {
     // backgroundColor: "#3f51b5",
     // color: "#228adc",
-    margin:"10px"
+    margin: "10px",
   },
-  grid:{
-    border:1,
-    borderColor:"#228adc",
-    boxSizing:"border-box",
-    padding:10
-    
-  }
+  grid: {
+    border: 1,
+    borderColor: "#228adc",
+    boxSizing: "border-box",
+    padding: 10,
+  },
 }));
 
 const TextFieldInput = ({ input, props, meta, label, ...custom }) => {
@@ -51,11 +50,11 @@ const columns = [
 export default function ViewAllProjects() {
   let selectedProj;
   const classes = useStyles();
-  const adminPageState = useSelector((state)=>state.adminPage)
+  const adminPageState = useSelector((state) => state.adminPage);
 
   const dispatch = useDispatch(adminPageState);
   // *** Following is not used but retained to refresh component
-  const st= useSelector(state=>state.adminPage);
+  const st = useSelector((state) => state.adminPage);
   const [projects, setProjects] = useState([]);
   // const [project, setSelectedProject] = useState({});
 
@@ -111,23 +110,43 @@ export default function ViewAllProjects() {
 function ViewUpdateForm(props) {
   const classes = useStyles();
   const { handleSubmit, history } = props;
-  const adminPageState= useSelector(state=>state.adminPage);
+  const adminPageState = useSelector((state) => state.adminPage);
   const dispatch = useDispatch(adminPageState);
-  const {selectedProject} = useSelector((state)=>state.adminPage);
-  const handleFormSubmit = async (formValues, dispatch) => {};
-  const handleDeleteProject = (formValues)=>{
+  const { selectedProject } = useSelector((state) => state.adminPage);
+  // const handleFormSubmit = async (formValues, dispatch) => {};
+  const handleDeleteProject = (formValues) => {
     const auth = JSON.parse(localStorage.getItem("adminauth"));
-      try {
-        const res = axios.delete(`/api/projects/${selectedProject.project_id}`)
-        .then(res=>{        
-          dispatch(reset('WrappedEditProjectForm'));
-          dispatch(setSelectedProject({})) ; 
-          window.location.reload();    
+    try {
+      const res = axios
+        .delete(`/api/projects/${selectedProject.project_id}`)
+        .then((res) => {
+          dispatch(reset("WrappedEditProjectForm"));
+          dispatch(setSelectedProject({}));
+          window.location.reload();
         });
-      } catch (e) {
-        console.log(e);
-      }
-  }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleUpdateProject = (formValues) => {
+    console.log(formValues);
+    const auth = JSON.parse(localStorage.getItem("adminauth"));
+    try {
+      const res = axios
+        .patch(`/api/projects`,{
+          name:formValues.project_name, description:formValues.project_description,projectId:formValues.project_id
+        })
+        .then((res) => {
+          dispatch(reset("WrappedEditProjectForm"));
+          dispatch(setSelectedProject({}));
+          window.location.reload();
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <form
       autoComplete="off"
@@ -144,7 +163,6 @@ function ViewUpdateForm(props) {
         label="Project Name"
         autoComplete="name"
         component={TextFieldInput}
-        
       />
       <Field
         variant="outlined"
@@ -169,7 +187,7 @@ function ViewUpdateForm(props) {
         label="description"
         autoComplete="project description"
         component={TextFieldInput}
-        multiLine={true}        
+        multiLine={true}
       />
       <Button
         // onClick={handleSubmit(handleFormSubmit)}
@@ -178,6 +196,7 @@ function ViewUpdateForm(props) {
         variant="contained"
         color="primary"
         className={classes.submit}
+        onClick={handleSubmit(handleUpdateProject)}
       >
         Update Project
       </Button>
@@ -189,7 +208,6 @@ function ViewUpdateForm(props) {
         // color="secondary"
         color="primary"
         className={classes.submit}
-        
       >
         Delete Project
       </Button>
@@ -197,14 +215,15 @@ function ViewUpdateForm(props) {
   );
 }
 
-let WrappedEditProjectForm = reduxForm({ form: "editProjectForm",enableReinitialize : true })(
-  ViewUpdateForm
-);
+let WrappedEditProjectForm = reduxForm({
+  form: "editProjectForm",
+  enableReinitialize: true,
+})(ViewUpdateForm);
 
 // You have to connect() to any reducers that you wish to connect to yourself
 WrappedEditProjectForm = connect(
-  state => ({
-    initialValues: state.adminPage.selectedProject // pull initial values from account reducer
+  (state) => ({
+    initialValues: state.adminPage.selectedProject, // pull initial values from account reducer
   }),
-  { load: setSelectedProject }               // bind account loading action creator
-)(WrappedEditProjectForm)
+  { load: setSelectedProject } // bind account loading action creator
+)(WrappedEditProjectForm);
