@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   projects:[],
   users:[],
   labels:[],
+  selectedProject:{},
 };
 
 const adminPageSlice = createSlice({
@@ -16,9 +17,15 @@ const adminPageSlice = createSlice({
      ...state, projects:action.payload,
 
     }),
+    setSelectedProject:(state,action) =>{
+      return{
+        ...state,
+        selectedProject:action.payload
+      }
+    },
   },
 });
 
-export const {getAllProjects}=adminPageSlice.actions;
+export const {getAllProjects,setSelectedProject}=adminPageSlice.actions;
 
 export const adminPageReducer =adminPageSlice.reducer;

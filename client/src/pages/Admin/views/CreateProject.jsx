@@ -7,10 +7,13 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 import {useSelector} from 'react-redux';
-import {getAllProjects} from './adminPageReducer';
+import {getAllProjects} from '../adminPageReducer';
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  submit: {
+    backgroundColor:"#3f51b5",
+    color:"#228adc",
+  },
 }));
 
 const TextFieldInput = ({ input,props, meta, label, ...custom }) => {
@@ -19,7 +22,7 @@ const TextFieldInput = ({ input,props, meta, label, ...custom }) => {
   return <TextField {...input} label={label} {...custom} {...props}/>;
 };
 
-export default function CreateProject(props) {
+function CreateProject(props) {
   const classes = useStyles();
   const { handleSubmit, history } = props;
   const st = useSelector(state=>state.admin);
@@ -32,8 +35,8 @@ export default function CreateProject(props) {
     // console.log(st.adminauth.id);
     try {
       const res = await axios.post("/api/projects", formValues);
-      history.push("/admin/adminpage/projects");
       dispatch(getAllProjects());
+      history.push("/admin/adminpage/projects");
     }catch(e){
       throw new Error(e)
     }
