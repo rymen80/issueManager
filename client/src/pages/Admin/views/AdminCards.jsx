@@ -58,6 +58,12 @@ export default function AdminCards(props) {
     history.push("/admin/adminpage/projects/create");
   };
 
+  const handleCreateUser = () => {
+    history.push("/admin/adminpage/users/create");
+  };
+
+ 
+
   return (
     <Container>
       {/*VIEW ZONE */}
@@ -130,6 +136,7 @@ export default function AdminCards(props) {
             color="primary"
             size="medium"
             className={classes.button}
+            onClick={handleCreateUser}
           >
             Create User
           </Button>
