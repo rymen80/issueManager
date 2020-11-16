@@ -5,14 +5,16 @@ import DetailsIcon from "@material-ui/icons/Details";
 const useStyles = makeStyles({
   root: {
     width: 150,
-    background: "#fd5429",
-    color: "#a7d7e2",
-    borderRadius: "50%",
+    background: "#399ae8",
+    color: "white",
+    borderRadius: "15%",
     height: 150,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
+    margin:"25px",
+    
   },
   title: {
     fontSize: 14,
