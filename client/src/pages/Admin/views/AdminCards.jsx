@@ -62,6 +62,14 @@ export default function AdminCards(props) {
     history.push("/admin/adminpage/users/create");
   };
 
+  const handleViewAllUsersClick = async () => {
+    // const res = await axios.get("/api/projects", { params: { userid: 1 } });
+    // console.log(res.data);
+    // console.log("OK I AM HERE");
+    // dispatch(getAllProjects(res.data));
+    history.push("/admin/adminpage/users");
+  };
+  
  
 
   return (
@@ -94,6 +102,7 @@ export default function AdminCards(props) {
             color="primary"
             size="medium"
             className={classes.button}
+            onClick={handleViewAllUsersClick}
           >
             View/Update Users
           </Button>

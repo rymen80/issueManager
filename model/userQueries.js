@@ -1,4 +1,4 @@
-const findAllUsers = "SELECT id, username,firstname,lastname,phone FROM user;";
+const findAllUsers = "SELECT id, username,firstname,lastname,phone,isadmin FROM user;";
 
 const findAllUsersInProject =
   "SELECT u.id, u.username,u.firstname,u.lastname,u.phone FROM user u INNER JOIN projectusers p ON u.id=p.user_id  WHERE project_id = ?;";
