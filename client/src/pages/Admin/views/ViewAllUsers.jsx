@@ -8,7 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { useSelector, useDispatch, connect } from "react-redux";
-import { setSelectedProject } from "../adminPageReducer";
+import { setSelectedUser } from "../adminPageReducer";
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -29,31 +29,23 @@ const TextFieldInput = ({ input, props, meta, label, ...custom }) => {
 };
 
 const columns = [
-  { field: "id", headerName: "#", width: 50 },
+  { field: "id", headerName: "Id", width: 50 },
   { field: "username", headerName: "Username", width: 120 },
   { field: "firstname", headerName: "First Name", width: 120 },
   { field: "lastname", headerName: "Last Name", width: 120 },
   { field: "phone", headerName: "Phone", width: 130 },
-  { field: "isadmin", headerName: "Admin?", width: 100 },
-  // { field: 'lastName', headerName: 'Last name', width: 130 },
-  // {
-  //   field: 'age',
-  //   headerName: 'Age',
-  //   type: 'number',
-  //   width: 90,
-  // },
+  { field: "isadmin", headerName: "Admin?", width: 100 },  
 ];
 
 export default function ViewAllUsers() {
-  let selectedProj;
+  let selectedUser;
   const classes = useStyles();
   const adminPageState = useSelector((state) => state.adminPage);
 
   const dispatch = useDispatch(adminPageState);
   // *** Following is not used but retained to refresh component
   const st = useSelector((state) => state.adminPage);
-  const [users, setUsers] = useState([]);
-  // const [project, setSelectedProject] = useState({});
+  const [users, setUsers] = useState([]);  
 
   let rows;
   useEffect(() => {
@@ -71,15 +63,16 @@ export default function ViewAllUsers() {
     getUsers();
   }, []);
 
-  // let projects = await getProjects();
-  let i = 1;
-  rows = users.map((item) => ({ ...item, id: i++,isadmin:item.isadmin===1?"Yes":"No" }));
-  // rows = projects;
+
+  rows = users.map((item) => ({
+    ...item,
+    isadmin: item.isadmin === 1 ? "Yes" : "No",
+  }));
+  
 
   const rowSelection = (param) => {
-    selectedProj = param.data;
-    // console.log(selectedProj);
-    // dispatch(setSelectedProject(selectedProj));
+    selectedUser = param.data;    
+    dispatch(setSelectedUser(selectedUser));
   };
 
   return (
@@ -99,7 +92,7 @@ export default function ViewAllUsers() {
         </Grid>
 
         <Grid item xs={12} sm={8} md={5} elevation={6} className={classes.grid}>
-          {/* <WrappedEditProjectForm /> */}
+          <WrappedEditUserForm />
         </Grid>
       </Grid>
     </Container>
@@ -111,16 +104,17 @@ function UserUpdateForm(props) {
   const { handleSubmit, history } = props;
   const adminPageState = useSelector((state) => state.adminPage);
   const dispatch = useDispatch(adminPageState);
-  const { selectedProject } = useSelector((state) => state.adminPage);
-  // const handleFormSubmit = async (formValues, dispatch) => {};
-  const handleDeleteProject = (formValues) => {
+  const { selectedUser } = useSelector((state) => state.adminPage);  
+  const handleDeleteUser = (formValues) => {
     const auth = JSON.parse(localStorage.getItem("adminauth"));
     try {
       const res = axios
-        .delete(`/api/users/${selectedProject.project_id}`)
+        .delete(`/api/users/${selectedUser.id}`, {
+          headers: { authorization: auth.token },
+        })
         .then((res) => {
-          dispatch(reset("WrappedEditProjectForm"));
-          dispatch(setSelectedProject({}));
+          dispatch(reset("WrappedEditUserForm"));
+          dispatch(setSelectedUser({}));
           window.location.reload();
         });
     } catch (e) {
@@ -128,19 +122,26 @@ function UserUpdateForm(props) {
     }
   };
 
-  const handleUpdateProject = (formValues) => {
+  const handleUpdateUser = (formValues) => {
     console.log(formValues);
     const auth = JSON.parse(localStorage.getItem("adminauth"));
     try {
       const res = axios
-        .patch(`/api/users`, {
-          name: formValues.project_name,
-          description: formValues.project_description,
-          projectId: formValues.project_id,
-        })
+        .patch(
+          `/api/users/${selectedUser.id}`,
+          {
+            password: formValues.password,
+            firstname: formValues.firstname,
+            lastname: formValues.lastname,
+            phone: formValues.phone,
+          },
+          {
+            headers: { authorization: auth.token },
+          }
+        )
         .then((res) => {
-          dispatch(reset("WrappedEditProjectForm"));
-          dispatch(setSelectedProject({}));
+          dispatch(reset("WrappedEditUserForm"));
+          dispatch(setSelectedUser({}));
           window.location.reload();
         });
     } catch (e) {
@@ -151,80 +152,94 @@ function UserUpdateForm(props) {
   return (
     <form
       autoComplete="off"
-      className={classes.form}
-      // onSubmit={handleSubmit(handleFormSubmit)}
+      className={classes.form}      
     >
       <Field
         variant="outlined"
         margin="normal"
         required
         fullWidth
-        id="project_name"
-        name="project_name"
-        label="Project Name"
-        autoComplete="name"
-        component={TextFieldInput}
-      />
-      <Field
-        variant="outlined"
-        margin="normal"
-        // required
-        fullWidth
-        id="project_key"
-        name="project_key"
-        label="Key"
-        autoComplete="key"
+        id="username"
+        name="username"
+        label="User Name"
+        autoComplete="username"
         component={TextFieldInput}
         disabled
       />
-      <div>* Key Cannot be updated</div>
+      <div style={{ color: "red", fontSize: "12px" }}>
+        * Username Cannot be updated
+      </div>
       <Field
         variant="outlined"
         margin="normal"
-        // required
+        required
         fullWidth
-        id="project_description"
-        name="project_description"
-        label="description"
-        autoComplete="project description"
+        id="password"
+        name="password"
+        label="Password"
+        type="password"
         component={TextFieldInput}
-        multiLine={true}
       />
-      <Button
-        // onClick={handleSubmit(handleFormSubmit)}
-        type="submit"
-        // fullWidth
+      <Field
+        variant="outlined"
+        margin="normal"
+        fullWidth
+        id="firstname"
+        name="firstname"
+        label="First Name"
+        autoComplete="firstname"
+        component={TextFieldInput}
+      />
+      <Field
+        variant="outlined"
+        margin="normal"
+        fullWidth
+        id="lastname"
+        name="lastname"
+        label="Last Name"
+        autoComplete="lastname"
+        component={TextFieldInput}
+      />
+      <Field
+        variant="outlined"
+        margin="normal"
+        fullWidth
+        id="phone"
+        name="phone"
+        label="Phone"
+        autoComplete="phone"
+        component={TextFieldInput}
+      />
+      <Button        
+        type="submit"        
         variant="contained"
         color="primary"
         className={classes.submit}
-        onClick={handleSubmit(handleUpdateProject)}
+        onClick={handleSubmit(handleUpdateUser)}
       >
-        Update Project
+        Update User
       </Button>
       <Button
-        onClick={handleDeleteProject}
-        // type="submit"
-        // fullWidth
-        variant="contained"
-        // color="secondary"
+        onClick={handleDeleteUser}
+        variant="contained"        
         color="primary"
         className={classes.submit}
       >
-        Delete Project
+        Delete User
       </Button>
     </form>
   );
 }
 
-let WrappedEditProjectForm = reduxForm({
-  form: "editProjectForm",
+let WrappedEditUserForm = reduxForm({
+  form: "editUserForm",
   enableReinitialize: true,
 })(UserUpdateForm);
 
 // You have to connect() to any reducers that you wish to connect to yourself
-WrappedEditProjectForm = connect(
+WrappedEditUserForm = connect(
   (state) => ({
-    initialValues: state.adminPage.selectedProject, // pull initial values from account reducer
+    initialValues: state.adminPage.selectedUser, // pull initial values from adminPage reducer
   }),
-  { load: setSelectedProject } // bind account loading action creator
-)(WrappedEditProjectForm);
+  { load: setSelectedUser } // bind account loading action creator
+)(WrappedEditUserForm);
