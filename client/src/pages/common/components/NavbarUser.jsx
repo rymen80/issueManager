@@ -156,6 +156,7 @@ export default function NavbarUser() {
   const handleSignOut = () => {
     setAnchorEl(null);
     localStorage.removeItem("userauth");
+    history.push("/userpage");
     history.go(0);
   };
 

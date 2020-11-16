@@ -34,7 +34,7 @@ const tokenLocalStorage = localStorage.getItem("userauth")
  */
 
 const projectRequest = axios
-  .get("/api/projects")
+  .get(`/api/projects?userid=${JSON.parse(localStorage.getItem("userauth")).id}`)
   .then((res) => {
     projectResult = res.data;
   })
@@ -313,7 +313,7 @@ const CreateIssueForm = (props) => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               onChange={handleProjectChange}
-              value={project}
+              value={project}              
               name="project"
             >
               {projectResult.map((i) => (
