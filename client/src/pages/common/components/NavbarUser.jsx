@@ -171,6 +171,16 @@ export default function NavbarUser() {
     setOpen(false);
     history.push("/userpage/allissues");
   };
+
+  const handleAssignedIssuesClick = () => {
+    setOpen(false);
+    history.push("/userpage/assigned");
+  };
+
+  const handleReportedIssuesClick = () => {
+    setOpen(false);
+    history.push("/userpage/reported");
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -266,10 +276,10 @@ export default function NavbarUser() {
           <Button onClick={handleAllIssuesClick} className={classes.button}>
             All Issues <ArrowIcon />
           </Button>
-          <Button className={classes.button}>
+          <Button className={classes.button} onClick={handleAssignedIssuesClick}>
             Assigned to me <ArrowIcon />
           </Button>
-          <Button className={classes.button}>
+          <Button className={classes.button} onClick={handleReportedIssuesClick}>
             Reported By me <ArrowIcon />
           </Button>
           <Button className={classes.button}>

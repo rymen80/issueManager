@@ -5,7 +5,8 @@ import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { StatusCardsView } from "./Views/StatusCardsView";
 import CreateIssueForm from "../common/components/CreateIssue";
-import IssueDetailView from "./Views/IssueDetailView";
+// import IssueDetailView from "./Views/IssueDetailView";
+import ViewEditIssues from "./Views/issueDetailViewNew";
 
 const useStyles = makeStyles({
   button: {
@@ -35,7 +36,9 @@ export const UserPage = (props) => {
             <Route exact path="/userpage" component={StatusCardsView} />
             <Route path="/userpage/profile" component={UserProfile} />
             <Route path="/userpage/create" component={CreateIssueForm} />
-            <Route path="/userpage/allissues" component={IssueDetailView} />
+            <Route path="/userpage/:allissues" component={ViewEditIssues} />
+            <Route path="/userpage/:assigned" component={ViewEditIssues} />
+            <Route path="/userpage/:reported" component={ViewEditIssues} />
           </Switch>
         </Grid>
       </Grid>
