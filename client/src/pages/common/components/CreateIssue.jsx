@@ -34,7 +34,7 @@ const tokenLocalStorage = localStorage.getItem("userauth")
  */
 
 const projectRequest = axios
-  .get(`/api/projects?userid=${JSON.parse(localStorage.getItem("userauth")).id}`)
+  .get(`/api/projects`)
   .then((res) => {
     projectResult = res.data;
   })
