@@ -1,6 +1,5 @@
 import { Paper } from "@material-ui/core";
 import { useSelector } from "react-redux";
-import { RenderContext } from "@material-ui/data-grid";
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import StatusCard from "../../common/components/StatusCard";
@@ -50,7 +49,7 @@ export function StatusCardsView() {
   }, [project]);
   return (
     <>
-      <h3 className={classes.title}>Status At Glance</h3>
+      <h3 className={classes.title}>Status At A Glance</h3>
       <Paper className={classes.paper}>
         <StatusCard title="Total Issue" count={issues.length} />
         <StatusCard
