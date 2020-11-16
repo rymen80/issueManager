@@ -6,16 +6,13 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import axios from "axios";
-import {
-  setSelectedProject,
-  setUserProjects,
-} from "../../User/UserPageReducer";
+import { setSelectedProject } from "../../User/UserPageReducer";
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {    
+  formControl: {
     minWidth: 200,
     color: "white",
-  },  
+  },
   inputLabel: {
     color: "white",
   },
@@ -26,11 +23,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ProjecSelectorNew() {
+  const dispatch = useDispatch();
+  const [value, setValue] = React.useState(null);
   const [projects, setProjects] = React.useState([]);
   const [project, setProject] = React.useState({});
   const userPageState = useSelector((state) => state.userPage);
-  const dispatch = useDispatch();
-  useEffect(() => {
+  useEffect(async () => {
     const getData = async () => {
       try {
         /** @summary Get only those projects to which user belong */
@@ -41,39 +39,30 @@ export default function ProjecSelectorNew() {
           }`
         );
 
-        setProjects(fetchedProjects.data);
-        setProject(fetchedProjects.data[0]);
-        dispatch(setUserProjects(fetchedProjects.data));
-        dispatch(setSelectedProject(fetchedProjects.data[0]));
+        return fetchedProjects;
       } catch (e) {
         throw new Error(e);
       }
     };
-    getData();
+    const res = await getData();
+    setProjects(res.data);
+    setProject(res.data[0]);
+    dispatch(setSelectedProject(res.data[0]));
   }, []);
   const classes = useStyles();
 
   const handleChange = async (event) => {
-    event.persist();
     const pid = event.target.value;
     try {
-      /** @summary Get only those projects to which user belong */
-      const fetchedProjects = await axios.get(
-        `/api/projects?userid=${
-          JSON.parse(localStorage.getItem("userauth")).id
-        }`
-      );
+      setValue(pid);
+      setProject(projects.filter((p) => p.project_id === +pid)[0]);
 
-      setProjects(fetchedProjects.data);
-      setProject(fetchedProjects.data[0]);
-      dispatch(setUserProjects(fetchedProjects.data));
-      dispatch(setSelectedProject(fetchedProjects.data[0]));
+      dispatch(
+        setSelectedProject(projects.filter((p) => p.project_id === +pid)[0])
+      );
     } catch (e) {
       throw new Error(e);
     }
-    const proj = projects.filter((p) => p.project_id === +pid);
-    setProject(proj[0]);
-    dispatch(setSelectedProject(proj));
   };
 
   return (
@@ -83,7 +72,7 @@ export default function ProjecSelectorNew() {
           Project
         </InputLabel>
         <NativeSelect
-          value={project.project_name}
+          value={value}
           onChange={handleChange}
           className={classes.selectStyle}
         >
