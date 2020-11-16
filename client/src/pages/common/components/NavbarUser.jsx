@@ -13,24 +13,15 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import { AccountCircle } from "@material-ui/icons";
-import { useDispatch } from "react-redux";
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
 import ArrowIcon from "@material-ui/icons/ArrowForwardIosRounded";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import CancelIcon from "@material-ui/icons/Cancel";
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemIcon from '@material-ui/core/ListItemIcon';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import ReportIssueButton from "./ReportIssueButton";
-// import ProjectSelector from "./ProjectSelector";
 import ProjectSelectorNew from "./ProjectSelectorNew";
 import issUseLogo from "../../../images/issUseLogo.png";
-import { userProfile } from "./UserProfile";
 
 const drawerWidth = 240;
 
@@ -127,10 +118,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function NavbarUser() {
-  const dispatch = useDispatch();
   const classes = useStyles();
-  const selectedUser = JSON.parse(localStorage.getItem("userauth")).username;
-  const [auth, setAuth] = React.useState(true);
+  const selectedUser = localStorage.getItem("userauth")
+    ? JSON.parse(localStorage.getItem("userauth")).username
+    : "";
+  const auth=localStorage.getItem("userauth")
+  ? JSON.parse(localStorage.getItem("userauth")).token
+  : "";
+  
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const history = useHistory();
@@ -142,7 +137,8 @@ export default function NavbarUser() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleProfileClick = () => {
+  const handleProfileClick = () => {    
+    setAnchorEl(null);
     history.push({
       pathname: "/userpage/profile",
       state: { backLocation: location.pathname, localstorageItem: "userauth" },
@@ -151,7 +147,6 @@ export default function NavbarUser() {
 
   const handleClose = () => {
     setAnchorEl(null);
-    handleProfileClick();
   };
 
   const handleClick = () => {
@@ -159,8 +154,9 @@ export default function NavbarUser() {
   };
 
   const handleSignOut = () => {
-    history.push("/");
+    setAnchorEl(null);
     localStorage.removeItem("userauth");
+    history.go(0);
   };
 
   const handleDrawerOpen = () => {
@@ -173,7 +169,6 @@ export default function NavbarUser() {
   const handleAllIssuesClick = () => {
     setOpen(false);
     history.push("/userpage/allissues");
-
   };
   return (
     <div className={classes.root}>
@@ -196,7 +191,7 @@ export default function NavbarUser() {
           </IconButton>
           <Typography variant="h6" className={classes.logo}>
             <Link to="/userpage">
-              <img src={issUseLogo} height={"20px"} />
+              <img src={issUseLogo} height={"20px"} alt="issuse logo"/>
             </Link>
           </Typography>
           <IconButton className={classes.projectButton}>
@@ -239,7 +234,7 @@ export default function NavbarUser() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
                 <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
               </Menu>
             </div>

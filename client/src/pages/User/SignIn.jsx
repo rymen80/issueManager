@@ -159,7 +159,7 @@ const SignIn = (props) => {
           Admin
         </Button>
         <div className={classes.paper}>
-          <img src={issUseLogo} className={classes.avatar} />
+          <img src={issUseLogo} className={classes.avatar} alt="issuse logo"/>
           <Typography component="h1" variant="h5">
             <span style={{ color: "#4049cc" }}>User</span> Sign in
           </Typography>
@@ -193,8 +193,7 @@ const SignIn = (props) => {
               name="password"
               label="password"
               autoComplete="password"
-              type="password"
-              name="password"
+              type="password"              
               component={TextFieldInput}
             />
             {/* SUBMIT BUTTON */}
