@@ -18,12 +18,6 @@ const userPageSlice = createSlice({
   name: "userPage",
   initialState: INITIAL_STATE,
   reducers: {
-    setVisibility: (state, action) => {
-      return {
-        ...state,
-        visibility: !state.visibility,
-      };
-    },
     setSelectedProject:(state,action) =>{
       return{
         ...state,

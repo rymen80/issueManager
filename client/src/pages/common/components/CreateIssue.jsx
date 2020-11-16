@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
-import { useDispatch, useSelector } from "react-redux";
-import { setVisibility } from "../../../pages/User/UserPageReducer";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
@@ -181,10 +181,11 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     borderBottom: ".5px solid #00000026",
   },
-  closeIcon: {
-    color: "#EE3311",
-    fontSize: "30px",
+  cancel: {
     cursor: "pointer",
+    marginBottom: '10px',
+    background: "#EE3311",
+    color: "white",
   },
 }));
 
@@ -199,8 +200,8 @@ const CreateIssueForm = (props) => {
    * userauth: grabbing state of user authentication from our redux store
    * props are used for help with submitting form and in use with our clear button on form
    */
+  const history = useHistory();
   const userauth = useSelector((state) => state.user.userauth.token);
-  const dispatch = useDispatch();
   const { handleSubmit, pristine, reset, submitting } = props;
   const style = useStyles();
   /**
@@ -288,11 +289,11 @@ const CreateIssueForm = (props) => {
    * @description dispatch(setVisibility()) this changes the state of visibility in our redux store
    * When applied to elements allows create issue form to open and close
    */
-    dispatch(setVisibility());
+    history.push('/userpage')
   };
   
   const handleClose = () => {
-    dispatch(setVisibility());
+    history.push('/userpage')
   };
 
   return (
@@ -303,7 +304,7 @@ const CreateIssueForm = (props) => {
       <div className={style.formContents}>
         <div className={style.headerContainer}>
           <h1 className={style.header}>Create Issue</h1>
-          <CloseIcon className={style.closeIcon} onClick={handleClose} />
+          <Button className={style.cancel} onClick={handleClose}>Cancel</Button>
         </div>
         <div className={style.dropdowns}>
           <FormControl className={style.formControl}>

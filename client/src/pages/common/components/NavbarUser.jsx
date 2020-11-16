@@ -28,7 +28,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 // import ReportIssueButton from "./ReportIssueButton";
 // import ProjectSelector from "./ProjectSelector";
 import ProjectSelectorNew from "./ProjectSelectorNew";
-import { setVisibility } from "../../../pages/User/UserPageReducer";
 import issUseLogo from "../../../images/issUseLogo.png";
 import {userProfile} from './UserProfile'
 
@@ -156,7 +155,7 @@ export default function NavbarUser() {
   };
 
   const handleClick = () => {
-    dispatch(setVisibility());
+    
     history.push("/userpage/create");
   };
 
