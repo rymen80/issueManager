@@ -14,6 +14,8 @@ const useStyles = makeStyles({
     alignItems: "center",
     flexDirection: "column",
     margin:"25px",
+    borderBottom:"1px solid #f36106",
+    borderRight:"3px solid #f36106"
     
   },
   title: {
