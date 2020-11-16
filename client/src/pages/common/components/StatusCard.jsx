@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import DetailsIcon from "@material-ui/icons/Details";
+import Slide from "@material-ui/core/Slide";
 
 const useStyles = makeStyles({
   root: {
@@ -13,10 +14,9 @@ const useStyles = makeStyles({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    margin:"25px",
-    borderBottom:"1px solid #f36106",
-    borderRight:"3px solid #f36106"
-    
+    margin: "25px",
+    borderBottom: "1px solid #f36106",
+    borderRight: "3px solid #f36106",
   },
   title: {
     fontSize: 14,
@@ -37,7 +37,9 @@ const StatusCard = (props) => {
       <div>
         <DetailsIcon />
       </div>
-      <div>{count}</div>
+      <Slide direction="up" in timeout={500} mountOnEnter unmountOnExit>
+        <div>{count}</div>
+      </Slide>
     </div>
   );
 };
