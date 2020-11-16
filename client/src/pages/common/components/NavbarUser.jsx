@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, useLocation,Link } from "react-router-dom";
+import { useHistory, useLocation, Link } from "react-router-dom";
 import {
   makeStyles,
   AppBar,
@@ -14,14 +14,15 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import { AccountCircle } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
-import clsx from 'clsx';
-import Drawer from '@material-ui/core/Drawer';
+import clsx from "clsx";
+import Drawer from "@material-ui/core/Drawer";
 import ArrowIcon from "@material-ui/icons/ArrowForwardIosRounded";
-import CssBaseline from '@material-ui/core/CssBaseline';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import CssBaseline from "@material-ui/core/CssBaseline";
+import List from "@material-ui/core/List";
+import Divider from "@material-ui/core/Divider";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import CancelIcon from "@material-ui/icons/Cancel";
 // import ListItem from '@material-ui/core/ListItem';
 // import ListItemIcon from '@material-ui/core/ListItemIcon';
 // import ListItemText from '@material-ui/core/ListItemText';
@@ -29,25 +30,25 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 // import ProjectSelector from "./ProjectSelector";
 import ProjectSelectorNew from "./ProjectSelectorNew";
 import issUseLogo from "../../../images/issUseLogo.png";
-import {userProfile} from './UserProfile'
+import { userProfile } from "./UserProfile";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    display: 'flex',
+    display: "flex",
   },
-    appBar: {
-    transition: theme.transitions.create(['margin', 'width'], {
+  appBar: {
+    transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
-      appBarShift: {
+  appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
+    transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -55,25 +56,27 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-drawer: {
+  drawer: {
     width: drawerWidth,
     flexShrink: 0,
   },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: "#3f51b5",
+    top: 100,
+    color: "white",
   },
   drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
@@ -88,41 +91,42 @@ drawer: {
     alignItems: "center",
     justifyContent: "center",
     marginRight: "20px",
-    borderColor: "blue",
-    border: "1px",
+    borderColor: "#f36106",
+    border: "1px solid",
   },
   userIcon: {
     right: "2%",
     position: "absolute",
+    borderBottom: "1px solid #f36106",
+    color: "#399ae8",
   },
   projectButton: {
-    // position: "absolute",
-    // right: "40%",
     marginLeft: "40px",
   },
   accountButton: {
     fontSize: "12px",
     borderColor: "white",
+    color: "white",
   },
   reportButton: {
-    // position: "absolute",
-    // right: "50%",
     marginLeft: "30px",
   },
-    contentShift: {
-    transition: theme.transitions.create('margin', {
+  contentShift: {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
   },
-  // drawer:{
-  //   top:"100px",
-  // }
+  menuicon: {
+    color: "#f36106",
+  },
+  button: {
+    color: "white",
+  },
 }));
 
 export default function NavbarUser() {
-  // const [visibility, setVisibility] = useState(true);
   const dispatch = useDispatch();
   const classes = useStyles();
   const selectedUser = JSON.parse(localStorage.getItem("userauth")).username;
@@ -133,10 +137,6 @@ export default function NavbarUser() {
   const location = useLocation();
   const theme = useTheme();
   const [opens, setOpen] = React.useState(false);
-
-  // const handleChange = (event) => {
-  //   setAuth(event.target.checked);
-  // };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -155,7 +155,6 @@ export default function NavbarUser() {
   };
 
   const handleClick = () => {
-    
     history.push("/userpage/create");
   };
 
@@ -164,35 +163,39 @@ export default function NavbarUser() {
     localStorage.removeItem("userauth");
   };
 
-    const handleDrawerOpen = () => {
+  const handleDrawerOpen = () => {
     setOpen(true);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
   };
- const handleAllIssuesClick = () => {
-   history.push('/userpage/allissues')
- }
+  const handleAllIssuesClick = () => {
+    setOpen(false);
+    history.push("/userpage/allissues");
+
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed"
+      <AppBar
+        position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarPosition]: open,
-        })}>
+        })}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton,
-              opens && classes.hide)}>
-            <MenuIcon />
+            className={clsx(classes.menuButton, opens && classes.hide)}
+          >
+            <MenuIcon className={classes.menuicon} />
           </IconButton>
           <Typography variant="h6" className={classes.logo}>
-          <Link to="/userpage">
+            <Link to="/userpage">
               <img src={issUseLogo} height={"20px"} />
             </Link>
           </Typography>
@@ -218,7 +221,7 @@ export default function NavbarUser() {
                 color="inherit"
                 className={classes.accountButton}
               >
-                {selectedUser + ''}
+                {selectedUser + ""}
                 <AccountCircle />
               </IconButton>
               <Menu
@@ -243,9 +246,7 @@ export default function NavbarUser() {
           )}
         </Toolbar>
       </AppBar>
-      {/* <Drawer anchor="left" open={true}>
-      <ListItemText >A</ListItemText>
-        </Drawer> */}
+
       <Drawer
         className={classes.drawer}
         variant="persistent, primary"
@@ -253,30 +254,34 @@ export default function NavbarUser() {
         open={opens}
         classes={{
           paper: classes.drawerPaper,
-        }}>
+        }}
+      >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === "ltr" ? (
+              <CancelIcon style={{ color: "#f36106" }} />
+            ) : (
+              <CancelIcon style={{ color: "#f36106" }} />
+            )}
           </IconButton>
         </div>
         <Divider />
         <List>
-          <Button  color="primary" onClick={handleAllIssuesClick} className={classes.button}>
-              All Issues <ArrowIcon />
-            </Button>
-            <Button  color="primary" className={classes.button}>
-              Assigned to me <ArrowIcon />
-            </Button>
-            <Button  color="primary" className={classes.button}>
-              Reported By me <ArrowIcon />
-            </Button>
-            <Button  color="primary" className={classes.button}>
-              Board <ArrowIcon />
-            </Button>
+          <Button onClick={handleAllIssuesClick} className={classes.button}>
+            All Issues <ArrowIcon />
+          </Button>
+          <Button className={classes.button}>
+            Assigned to me <ArrowIcon />
+          </Button>
+          <Button className={classes.button}>
+            Reported By me <ArrowIcon />
+          </Button>
+          <Button className={classes.button}>
+            Board <ArrowIcon />
+          </Button>
         </List>
-        {/* <Divider /> */}
       </Drawer>
-      
+
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: opens,
@@ -284,7 +289,6 @@ export default function NavbarUser() {
       >
         <div className={classes.drawerHeader} />
       </main>
-      
     </div>
   );
 }
