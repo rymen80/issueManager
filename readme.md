@@ -12,6 +12,8 @@ IssUse is an issue management system.
 3. [License](#license)
 5. [Tests](#tests)
 4. [Contributors](#meet-the-team)
+5. [Example](#example)
+6. [Link](#link)
 
 
 ###Install
@@ -47,7 +49,10 @@ tests pending.
 |![Christopher Rojas](images/Chris.png)|https://github.com/sfcarz (Roles : Back and Front end developer)|
 <hr/>
 
+####Example
+![demogif](images/issudemo.gif)
 
 
-
+####link
+https://iss-use.herokuapp.com/
 
