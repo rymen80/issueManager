@@ -14,49 +14,6 @@ import { makeStyles } from "@material-ui/core/styles";
 
 
 /**
- * @description these variables hold information from axios requests, declared outside of
- * component to be used universally
- */
-let projectResult;
-let resolutionValues = [];
-let usersFromProject = [];
-
-/**
- * @description grabs the auth token from local storage to be use for axios calls. This token
- * gets set when user logs in
- */
-const tokenLocalStorage = localStorage.getItem("userauth")
-  ? JSON.parse(localStorage.getItem("userauth")).token
-  : null;
-
-/**
- * @description Project list and Resolution list requests with axios
- */
-
-const projectRequest = axios
-  .get(`/api/projects`)
-  .then((res) => {
-    projectResult = res.data;
-  })
-  .catch((e) => {
-    console.log(e);
-  });
-
-const resolutionRequet = axios
-  .get("/api/resolutions", {
-    headers: {
-      authorization: tokenLocalStorage,
-    },
-  })
-  .then((res) => {
-    resolutionValues = res.data;
-    console.log("RESOLUTION", res.data);
-  })
-  .catch((e) => {
-    console.log(e);
-  });
-
-/**
  * @description Validate makes the form fields all required
  */
 
@@ -177,13 +134,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
   headerContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    display: "flex",
+    justifyContent: "space-between",
     borderBottom: ".5px solid #00000026",
   },
   cancel: {
     cursor: "pointer",
-    marginBottom: '10px',
+    marginBottom: "10px",
     background: "#EE3311",
     color: "white",
   },
@@ -214,6 +171,58 @@ const CreateIssueForm = (props) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [assigned, setAssigned] = useState("");
+  // let resolutionValues = [];
+  const [resolutionValues, setResolutionValues] = useState([]);
+  const [projectResult, setProjectResult] = useState([]);
+  const [usersFromProject, setUsersFromProject] = useState([]);
+
+  useEffect(() => {
+
+    const getResolutions = async() => {
+      try {
+        const issuesRequest = await axios.get(`/api/resolutions`, {
+          headers: {
+            authorization: userauth,
+          },
+        });
+        setResolutionValues(issuesRequest.data);
+        
+      } catch (e) {
+        throw new Error(e);
+      }
+    }
+   
+    const getProjects = async () => {
+      try {
+        const projectRequest = await axios.get(`/api/projects`);
+        setProjectResult(projectRequest.data);
+
+        
+      } catch (e) {
+        throw new Error(e);
+      }
+    };
+    
+    getProjects();
+    getResolutions();
+  },[]);
+  
+  useEffect(() => {
+    console.log(project);
+    axios
+      .get(`/api/users?projectid=${project}`, {
+        headers: {
+          authorization: userauth,
+        },
+      })
+      .then((res) => {
+        setUsersFromProject(res.data);
+        console.log("USERS", res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [projectResult]);
 
   /**
    * @description Handle change functions set our state when dropdowns have a selection
@@ -241,26 +250,25 @@ const CreateIssueForm = (props) => {
   const handleLabelChange = (event) => {
     setLabel(event.target.value);
   };
+
+  // const resolutionRequet = () => {axios
+  // .get("/api/resolutions", {
+  //   headers: {
+  //     authorization: tokenLocalStorage,
+  //   },
+  // })
+  // .then((res) => {
+  //   resolutionValues = res.data;
+  //   console.log("RESOLUTION", res.data);
+  // })
+  // .catch((e) => {
+  //   console.log(e);
+  // })};
   /**
    * @description Axios request is placed in useEffect so that it can run every time user selects a project.
    * Makes it so our "Assigned to" dropdown can updated with users for the selected project
    */
-  useEffect(() => {
-    console.log(project);
-    axios
-      .get(`/api/users?projectid=${project}`, {
-        headers: {
-          authorization: tokenLocalStorage,
-        },
-      })
-      .then((res) => {
-        usersFromProject = res.data;
-        console.log("USERS", res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, [handleProjectChange]);
+  
 
   /**
    * @description Submit button is clicked, "handClick" is called and form data is sent to mySql database
@@ -285,15 +293,15 @@ const CreateIssueForm = (props) => {
         },
       }
     );
- /**
-   * @description dispatch(setVisibility()) this changes the state of visibility in our redux store
-   * When applied to elements allows create issue form to open and close
-   */
-    history.push('/userpage')
+    /**
+     * @description dispatch(setVisibility()) this changes the state of visibility in our redux store
+     * When applied to elements allows create issue form to open and close
+     */
+    history.push("/userpage");
   };
-  
+
   const handleClose = () => {
-    history.push('/userpage')
+    history.push("/userpage");
   };
 
   return (
@@ -304,7 +312,9 @@ const CreateIssueForm = (props) => {
       <div className={style.formContents}>
         <div className={style.headerContainer}>
           <h1 className={style.header}>Create Issue</h1>
-          <Button className={style.cancel} onClick={handleClose}>Cancel</Button>
+          <Button className={style.cancel} onClick={handleClose}>
+            Cancel
+          </Button>
         </div>
         <div className={style.dropdowns}>
           <FormControl className={style.formControl}>
@@ -313,7 +323,7 @@ const CreateIssueForm = (props) => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               onChange={handleProjectChange}
-              value={project}              
+              value={project}
               name="project"
             >
               {projectResult.map((i) => (
@@ -345,7 +355,7 @@ const CreateIssueForm = (props) => {
               name="resolution"
               onChange={handleResolutionChange}
             >
-              {console.log(resolutionValues[0].resolution_name)}
+              {/* {console.log(resolutionValues[0].resolution_name)} */}
               {resolutionValues.map((i) => (
                 <MenuItem value={i.resolution_id}>{i.resolution_name}</MenuItem>
               ))}

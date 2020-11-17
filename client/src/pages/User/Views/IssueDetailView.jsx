@@ -70,10 +70,10 @@ export default function ViewAllProjects() {
   let i = 1;
   rows = issues.map((item) => ({
     summary: item.summary,
-    reported_by: item.reported_by,
-    assigned_to: item.assigned_to,
+    reported_by: item.reported_by.value,
+    assigned_to: item.assigned_to.value,
     priority: item.priority,
-    status: item.status,
+    status: item.status.value,
     id: i++,
   }));
 
